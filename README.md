@@ -13,13 +13,13 @@ One command to turn Claude Code into a professional website building machine.
 ## One-Line Setup
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/claude-website-setup/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ralphwestworld/claude-website-setup/main/setup.sh | bash
 ```
 
 With your 21st.dev API key:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/claude-website-setup/main/setup.sh | MAGIC_API_KEY=your_key_here bash
+curl -fsSL https://raw.githubusercontent.com/ralphwestworld/claude-website-setup/main/setup.sh | MAGIC_API_KEY=your_key_here bash
 ```
 
 Get your free API key at [21st.dev](https://21st.dev) → Settings → API Keys
@@ -27,7 +27,7 @@ Get your free API key at [21st.dev](https://21st.dev) → Settings → API Keys
 ## Manual Run
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/claude-website-setup
+git clone https://github.com/ralphwestworld/claude-website-setup
 cd claude-website-setup
 bash setup.sh your_21st_api_key
 ```
