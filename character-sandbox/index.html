@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Character Sandbox (VR)</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; background: #081428; color: #e7ecf5; font-family: system-ui, sans-serif; }
+      #overlay {
+        position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+        padding: 24px; pointer-events: none; text-align: center;
+      }
+      #overlay.hidden { display: none; }
+      .card {
+        background: rgba(8, 20, 40, 0.85); padding: 24px 28px; border-radius: 16px;
+        border: 1px solid rgba(120, 180, 255, 0.25); max-width: 520px; pointer-events: auto;
+      }
+      h1 { margin: 0 0 6px; font-size: 22px; }
+      p { margin: 6px 0; line-height: 1.5; color: #b9c4d6; font-size: 14px; }
+      #vr-button-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 10; }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <div class="card">
+        <h1>Character Sandbox</h1>
+        <p>Enter VR. Use the <strong>trigger</strong> to grab body parts or slider handles. Release to let go.</p>
+        <p style="font-size: 12px; color: #8b96ab;">Desktop preview: drag to orbit, scroll to zoom.</p>
+      </div>
+    </div>
+    <div id="vr-button-container"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
