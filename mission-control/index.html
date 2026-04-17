@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mission Control</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <h1>Mission Control</h1>
+      </div>
+      <div class="topbar-actions">
+        <input id="search" type="search" placeholder="Search title, description, tags…" />
+        <button id="new-entry" class="primary">+ New Entry</button>
+        <button id="export">Export</button>
+        <button id="import">Import</button>
+        <input id="import-file" type="file" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="filter-group">
+          <h3>Type</h3>
+          <ul id="filter-type" class="filter-list"></ul>
+        </div>
+        <div class="filter-group">
+          <h3>Status</h3>
+          <ul id="filter-status" class="filter-list"></ul>
+        </div>
+        <div class="filter-group">
+          <h3>Activity</h3>
+          <button id="view-log" class="link-btn">Open change log →</button>
+        </div>
+        <div class="footer-note">
+          <p>All data is stored locally in this browser. Use <strong>Export</strong> to back up.</p>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="main-header">
+          <h2 id="main-title">All entries</h2>
+          <span id="entry-count" class="subtle"></span>
+        </div>
+        <div id="grid" class="grid"></div>
+        <div id="empty" class="empty hidden">
+          <p>No entries yet. Click <strong>+ New Entry</strong> to log your first character, scenario, prop, or reference.</p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Entry editor modal -->
+    <div id="editor" class="modal hidden" aria-hidden="true">
+      <div class="modal-body">
+        <header class="modal-header">
+          <h2 id="editor-title">New entry</h2>
+          <button class="icon-btn" data-close>×</button>
+        </header>
+        <div class="editor-grid">
+          <div class="editor-left">
+            <label>Title
+              <input id="f-title" type="text" placeholder="e.g. Bulky Knight Base Body" maxlength="120" />
+            </label>
+            <div class="row">
+              <label>Type
+                <select id="f-type"></select>
+              </label>
+              <label>Status
+                <select id="f-status"></select>
+              </label>
+            </div>
+            <label>Tags (comma separated)
+              <input id="f-tags" type="text" placeholder="e.g. armor, heavy, tier-2" />
+            </label>
+            <label>Description
+              <textarea id="f-description" rows="10" placeholder="What is this about? Character details, scenario mechanics, prop behavior, reference notes…"></textarea>
+            </label>
+          </div>
+          <div class="editor-right">
+            <label>Reference images</label>
+            <div id="dropzone" class="dropzone">
+              <p>Drag images here, or</p>
+              <button id="browse-btn" class="primary">Browse…</button>
+              <input id="file-input" type="file" accept="image/*" multiple hidden />
+              <p class="subtle">PNG, JPG, WebP. Stored in this browser.</p>
+            </div>
+            <div id="thumbs" class="thumbs"></div>
+          </div>
+        </div>
+        <footer class="modal-footer">
+          <button id="delete-entry" class="danger hidden">Delete</button>
+          <div class="spacer"></div>
+          <button data-close>Cancel</button>
+          <button id="save-entry" class="primary">Save</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Detail viewer modal -->
+    <div id="viewer" class="modal hidden" aria-hidden="true">
+      <div class="modal-body">
+        <header class="modal-header">
+          <h2 id="viewer-title"></h2>
+          <div class="viewer-meta">
+            <span id="viewer-type" class="pill"></span>
+            <span id="viewer-status" class="pill"></span>
+          </div>
+          <button class="icon-btn" data-close>×</button>
+        </header>
+        <div class="viewer-body">
+          <div id="viewer-images" class="viewer-images"></div>
+          <div class="viewer-text">
+            <p id="viewer-description"></p>
+            <div id="viewer-tags" class="tag-row"></div>
+            <div class="viewer-dates subtle"></div>
+            <h3>Change log</h3>
+            <ul id="viewer-log" class="log-list"></ul>
+          </div>
+        </div>
+        <footer class="modal-footer">
+          <button id="viewer-edit" class="primary">Edit</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Global log modal -->
+    <div id="log-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-body">
+        <header class="modal-header">
+          <h2>Global change log</h2>
+          <button class="icon-btn" data-close>×</button>
+        </header>
+        <ul id="global-log" class="log-list"></ul>
+      </div>
+    </div>
+
+    <!-- Fullscreen image preview -->
+    <div id="lightbox" class="lightbox hidden" aria-hidden="true">
+      <img id="lightbox-img" alt="" />
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
