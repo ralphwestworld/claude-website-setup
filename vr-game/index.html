@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Quest 3 Target Range</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; background: #05070d; color: #e7ecf5; font-family: system-ui, sans-serif; }
+      #overlay {
+        position: fixed; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; text-align: center;
+        padding: 24px; pointer-events: none;
+      }
+      #overlay.hidden { display: none; }
+      #overlay .card {
+        background: rgba(10, 14, 24, 0.82); padding: 28px 32px; border-radius: 18px;
+        border: 1px solid rgba(120, 180, 255, 0.25); max-width: 520px; pointer-events: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+      h1 { margin: 0 0 8px; font-size: 26px; letter-spacing: 0.4px; }
+      p { margin: 8px 0; line-height: 1.5; color: #b9c4d6; }
+      kbd { background: #1a2136; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #cfe0ff; }
+      button {
+        margin-top: 14px; padding: 12px 22px; font-size: 15px; cursor: pointer;
+        background: linear-gradient(135deg, #4f7cff, #7c4dff); color: white; border: 0;
+        border-radius: 10px; font-weight: 600; letter-spacing: 0.3px;
+      }
+      button:hover { filter: brightness(1.08); }
+      #vr-button-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 10; }
+      #hud {
+        position: fixed; top: 14px; left: 14px; padding: 8px 14px; border-radius: 10px;
+        background: rgba(10, 14, 24, 0.6); border: 1px solid rgba(120, 180, 255, 0.2);
+        font-variant-numeric: tabular-nums; font-size: 14px; display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">Score: <span id="score">0</span> &middot; Time: <span id="time">60</span>s</div>
+
+    <div id="overlay">
+      <div class="card">
+        <h1>Quest 3 Target Range</h1>
+        <p>Point and pull the <strong>trigger</strong> on either controller to fire. Hit moving targets to score. You have 60 seconds per round.</p>
+        <p style="font-size: 12px; color: #8b96ab;">Desktop preview: drag to look, click to shoot, <kbd>R</kbd> to restart.</p>
+      </div>
+    </div>
+
+    <div id="vr-button-container"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./game.js"></script>
+  </body>
+</html>
