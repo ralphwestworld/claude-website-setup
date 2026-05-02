@@ -123,16 +123,65 @@ REINFORCEMENT_LINES = [
 ]
 
 
+PIPER_MODEL = os.environ.get("PIPER_MODEL", "/tmp/piper_models/en_GB-alan-medium.onnx")
+TTS_BACKEND = os.environ.get("TTS_BACKEND", "auto")  # "elevenlabs", "piper", or "auto"
+
+
+def _piper_render(text: str, wav_path: Path, length_scale: float = 1.35):
+    import subprocess
+    subprocess.run(
+        [
+            "piper",
+            "--model", PIPER_MODEL,
+            "--length_scale", str(length_scale),
+            "--sentence_silence", "0.4",
+            "--output_file", str(wav_path),
+        ],
+        input=text.encode("utf-8"),
+        capture_output=True,
+        check=True,
+    )
+
+
+def piper_tts(text: str, out_path: Path) -> AudioSegment:
+    """
+    Render text with hypnotic pacing: split on '...' and '\\n\\n', synthesize each
+    phrase separately, stitch with long silence between phrases (3-5s per spec).
+    """
+    import re
+
+    wav_dir = out_path.parent / (out_path.stem + "_chunks")
+    wav_dir.mkdir(parents=True, exist_ok=True)
+
+    # Split first on paragraph breaks (longer pause), then on ellipses (medium pause)
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    rendered: list[AudioSegment] = []
+    for p_idx, para in enumerate(paragraphs):
+        phrases = [ph.strip() for ph in re.split(r"\.{2,}", para) if ph.strip()]
+        for ph_idx, phrase in enumerate(phrases):
+            # Strip trailing punctuation that piper would dramatize awkwardly
+            clean = phrase.rstrip(",.;:")
+            chunk_wav = wav_dir / f"{p_idx:02d}_{ph_idx:02d}.wav"
+            _piper_render(clean + ".", chunk_wav)
+            chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
+            rendered.append(chunk)
+            # Pause between phrases within a paragraph: 3s (matches "3-5 second pauses" spec)
+            rendered.append(AudioSegment.silent(duration=3000, frame_rate=SAMPLE_RATE).set_channels(2))
+        # Longer pause between paragraphs
+        rendered.append(AudioSegment.silent(duration=2500, frame_rate=SAMPLE_RATE).set_channels(2))
+
+    full = sum(rendered, AudioSegment.silent(duration=0, frame_rate=SAMPLE_RATE).set_channels(2))
+    full.export(out_path, format="mp3", bitrate="128k")
+    return AudioSegment.from_file(out_path, format="mp3")
+
+
 def elevenlabs_tts(text: str, out_path: Path) -> AudioSegment:
     """Generate speech via ElevenLabs and save to disk. Returns AudioSegment."""
     from elevenlabs.client import ElevenLabs
 
     api_key = os.environ.get("ELEVENLABS_API_KEY")
     if not api_key:
-        raise RuntimeError(
-            "ELEVENLABS_API_KEY not set in environment. "
-            "Set it before running this script."
-        )
+        raise RuntimeError("ELEVENLABS_API_KEY not set")
 
     client = ElevenLabs(api_key=api_key)
     audio_iter = client.text_to_speech.convert(
@@ -151,6 +200,18 @@ def elevenlabs_tts(text: str, out_path: Path) -> AudioSegment:
     audio_bytes = b"".join(audio_iter)
     out_path.write_bytes(audio_bytes)
     return AudioSegment.from_file(out_path, format="mp3")
+
+
+def tts(text: str, out_path: Path) -> AudioSegment:
+    """Dispatch to selected TTS backend. Auto = ElevenLabs if key present, else Piper."""
+    backend = TTS_BACKEND
+    if backend == "auto":
+        backend = "elevenlabs" if os.environ.get("ELEVENLABS_API_KEY") else "piper"
+    if backend == "elevenlabs":
+        return elevenlabs_tts(text, out_path)
+    if backend == "piper":
+        return piper_tts(text, out_path)
+    raise ValueError(f"Unknown TTS backend: {backend}")
 
 
 def pan_segment(seg: AudioSegment, pan: float) -> AudioSegment:
@@ -185,7 +246,7 @@ def build_voice_track() -> AudioSegment:
             voice = AudioSegment.from_file(cache_path, format="mp3")
         else:
             print(f"[voice]   {seg['name']}: generating ({len(seg['text'])} chars)")
-            voice = elevenlabs_tts(seg["text"], cache_path)
+            voice = tts(seg["text"], cache_path)
 
         voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
         if seg["pan"] != 0.0:
@@ -208,7 +269,7 @@ def build_voice_track() -> AudioSegment:
         if cache_path.exists() and cache_path.stat().st_size > 500:
             voice = AudioSegment.from_file(cache_path, format="mp3")
         else:
-            voice = elevenlabs_tts(line, cache_path)
+            voice = tts(line, cache_path)
         voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
         voice = pan_segment(voice, pan) - 6  # -6 dB so it sits underneath
         position = seg3_start + (i + 1) * spacing
@@ -386,7 +447,11 @@ def main():
     print(f"Duration:      {len(mixed)/1000/60:.2f} min")
     print(f"Size:          {size_mb:.2f} MB")
     print(f"Format:        MP3 192 kbps stereo {SAMPLE_RATE} Hz")
-    print(f"Voice:         ElevenLabs voice_id={VOICE_ID}, model={MODEL_ID}")
+    backend = TTS_BACKEND if TTS_BACKEND != "auto" else ("elevenlabs" if os.environ.get("ELEVENLABS_API_KEY") else "piper")
+    if backend == "elevenlabs":
+        print(f"Voice:         ElevenLabs voice_id={VOICE_ID}, model={MODEL_ID}")
+    else:
+        print(f"Voice:         Piper TTS, model={Path(PIPER_MODEL).name}")
     print(f"Segments:      {len(SEGMENTS)} primary + {len(REINFORCEMENT_LINES)} reinforcement")
     print(f"Binaural:      200 Hz carrier, beat 10/7/4/2 Hz with 5s crossfades, -24 dB")
     print(f"Ambient:       Pink noise + 70 Hz drone, -30 dB")
