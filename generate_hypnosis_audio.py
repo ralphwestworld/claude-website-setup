@@ -123,7 +123,7 @@ REINFORCEMENT_LINES = [
 ]
 
 
-PIPER_MODEL = os.environ.get("PIPER_MODEL", "/tmp/piper_models/en_GB-alan-medium.onnx")
+PIPER_MODEL = os.environ.get("PIPER_MODEL", "/tmp/piper_models/en_GB-jenny_dioco-medium.onnx")
 TTS_BACKEND = os.environ.get("TTS_BACKEND", "auto")  # "elevenlabs", "piper", or "auto"
 
 
@@ -369,24 +369,34 @@ def generate_pink_noise(duration_ms: int) -> np.ndarray:
 
 
 def generate_ambient_track() -> AudioSegment:
-    """Pink noise bed + low frequency drone."""
-    print("[ambient] Generating pink noise bed...")
+    """
+    Soothing pink-noise bed with slow amplitude breathing (~0.08 Hz, ~12.5s cycle)
+    that mimics gentle ocean wave swell. Stereo decorrelated for width.
+    """
+    print("[ambient] Generating pink noise bed with wave modulation...")
     pink = generate_pink_noise(TOTAL_DURATION_MS)
 
-    print("[ambient] Generating low frequency drone (70 Hz)...")
     n_samples = pink.shape[0]
     t = np.arange(n_samples) / SAMPLE_RATE
-    drone = 0.5 * np.sin(2 * np.pi * 70.0 * t).astype(np.float32)
-    # Slow amplitude modulation to avoid sterile drone
-    drone *= (0.85 + 0.15 * np.sin(2 * np.pi * 0.05 * t)).astype(np.float32)
 
-    # Mix pink louder than drone within ambient track; final dB applied at mix
-    mixed_mono = 0.7 * pink + 0.3 * drone
+    # Slow amplitude swell - sounds like distant ocean waves breathing in/out
+    swell = 0.55 + 0.45 * (0.5 + 0.5 * np.sin(2 * np.pi * 0.08 * t)).astype(np.float32)
+    pink = pink * swell
+
+    # Light low-pass smoothing via simple 1-pole filter for warmer character
+    out = np.zeros_like(pink)
+    alpha = 0.15
+    prev = 0.0
+    for i in range(n_samples):
+        prev = alpha * pink[i] + (1 - alpha) * prev
+        out[i] = prev
+    # Mix dry + filtered to keep some high-frequency air
+    mixed_mono = 0.4 * pink + 0.6 * out
     peak = np.max(np.abs(mixed_mono)) or 1.0
-    mixed_mono = mixed_mono / peak * 0.85
+    mixed_mono = mixed_mono / peak * 0.9
 
-    # Slight stereo decorrelation: shift right channel by ~9ms for width
-    delay_samples = int(SAMPLE_RATE * 0.009)
+    # Stereo decorrelation: ~12 ms inter-channel delay for width
+    delay_samples = int(SAMPLE_RATE * 0.012)
     left = mixed_mono
     right = np.concatenate([np.zeros(delay_samples, dtype=np.float32), mixed_mono[:-delay_samples]])
 
@@ -420,9 +430,9 @@ def main():
     ambient_track = ambient_track[:TOTAL_DURATION_MS]
 
     print("[mix] Layering tracks...")
-    # Voice at 0 dB reference. Binaural -24 dB. Ambient -30 dB.
+    # Voice at 0 dB reference. Binaural -24 dB. Ambient -15 dB (clearly audible wash).
     binaural_track = binaural_track - 24
-    ambient_track = ambient_track - 30
+    ambient_track = ambient_track - 15
 
     base = AudioSegment.silent(duration=TOTAL_DURATION_MS, frame_rate=SAMPLE_RATE).set_channels(2)
     mixed = base.overlay(ambient_track).overlay(binaural_track).overlay(voice_track)
@@ -454,7 +464,7 @@ def main():
         print(f"Voice:         Piper TTS, model={Path(PIPER_MODEL).name}")
     print(f"Segments:      {len(SEGMENTS)} primary + {len(REINFORCEMENT_LINES)} reinforcement")
     print(f"Binaural:      200 Hz carrier, beat 10/7/4/2 Hz with 5s crossfades, -24 dB")
-    print(f"Ambient:       Pink noise + 70 Hz drone, -30 dB")
+    print(f"Ambient:       Pink noise with wave swell modulation, -15 dB")
     print()
 
 
