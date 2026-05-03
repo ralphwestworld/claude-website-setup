@@ -30,71 +30,76 @@ SEGMENTS = [
         "name": "01_welcome",
         "start_ms": 0,
         "text": (
-            "Welcome.\n\n"
-            "Find a comfortable position now. Lying down, with your head supported, your arms relaxed at your sides, your legs uncrossed.\n\n"
-            "You don't need to do anything except listen. Just listen to my voice, and let everything else fall away.\n\n"
-            "This is your time. Time to let go of the day. Time to step into the version of yourself you have always known you could become.\n\n"
-            "Tonight, your subconscious mind takes over the work. While you drift off to sleep, every word, every image, every belief I share will be absorbed deep into the part of you that builds your future. And tomorrow, you will wake up changed."
+            "Welcome. <<2>>\n\n"
+            "Find a comfortable position now. Lying down, with your head supported. Your arms relaxed at your sides. Your legs uncrossed. <<3>>\n\n"
+            "You don't need to do anything except listen. Just listen to my voice, and let everything else fall away. <<2>>\n\n"
+            "This is your time. Time to let go of the day. Time to step into the version of yourself you have always known you could become. <<2>>\n\n"
+            "Tonight, your subconscious mind takes over the work. While you drift off to sleep, every word, every image, every belief I share will be absorbed, deep into the part of you that builds your future. And tomorrow, you will wake up changed."
         ),
     },
     {
         "name": "02_progressive_relaxation",
-        "start_ms": 50 * 1000,  # 0:50
+        "start_ms": 60 * 1000,  # 1:00
         "text": (
-            "Now, take a slow, deep breath in through your nose. Fill your lungs completely. And let it out slowly through your mouth.\n\n"
-            "Again, breathe in deeply, and exhale, releasing everything that no longer serves you tonight.\n\n"
-            "One more breath. In through the nose, hold for a moment, and out, letting your whole body melt into the surface beneath you.\n\n"
-            "Now bring your awareness down to your feet. Feel your feet, all the way to the tips of your toes. And as you breathe out, let your feet become heavy, soft, completely relaxed.\n\n"
-            "Move that feeling up now into your calves and your shins. Let your lower legs become loose, warm, completely supported by the bed beneath you.\n\n"
-            "Bring the relaxation up into your knees, and your thighs. Let those large muscles of your legs surrender, become heavy, sink down.\n\n"
-            "Now feel your hips, and your lower back. Notice any tension there, and as you exhale, let it release. Let your hips sink down into the bed.\n\n"
-            "Bring the relaxation up through your stomach, and your chest. Feel your breathing slow and deepen. Each breath gentler than the last.\n\n"
-            "Drop your shoulders now. Drop them away from your ears. Let your arms become heavy, your hands relaxed, your fingers soft.\n\n"
-            "Bring the relaxation now to your neck, and the back of your head. Let your jaw soften. Let your tongue rest gently behind your teeth.\n\n"
-            "Soften the muscles around your eyes. Smooth the muscles of your forehead. Let your whole face relax.\n\n"
+            "Now, take a slow, deep breath in through your nose. <<3>> Fill your lungs completely. <<2>> And let it out slowly through your mouth. <<4>>\n\n"
+            "Again. Breathe in deeply. <<4>> And exhale, releasing everything that no longer serves you tonight. <<4>>\n\n"
+            "One more breath. In through the nose. <<3>> And out, letting your whole body melt into the surface beneath you. <<5>>\n\n"
+            "Now bring your awareness down to your feet. Feel your feet, all the way to the tips of your toes. <<3>> And as you breathe out, let your feet become heavy, soft, completely relaxed. <<3>>\n\n"
+            "Move that feeling up now into your calves and your shins. <<2>> Let your lower legs become loose, warm, completely supported by the bed beneath you. <<3>>\n\n"
+            "Bring the relaxation up into your knees, and your thighs. <<2>> Let those large muscles of your legs surrender, become heavy, sink down. <<3>>\n\n"
+            "Now feel your hips, and your lower back. <<2>> Notice any tension there, and as you exhale, let it release. <<3>> Let your hips sink down into the bed. <<3>>\n\n"
+            "Bring the relaxation up through your stomach, and your chest. <<2>> Feel your breathing slow and deepen. Each breath gentler than the last. <<3>>\n\n"
+            "Drop your shoulders now. <<2>> Drop them away from your ears. <<2>> Let your arms become heavy, your hands relaxed, your fingers soft. <<3>>\n\n"
+            "Bring the relaxation now to your neck, and the back of your head. <<2>> Let your jaw soften. Let your tongue rest gently behind your teeth. <<2>>\n\n"
+            "Soften the muscles around your eyes. <<2>> Smooth the muscles of your forehead. Let your whole face relax. <<3>>\n\n"
             "Your whole body now is heavy, warm, completely at ease. And you are going deeper, with every breath."
         ),
     },
     {
         "name": "03_countdown_deepener",
-        "start_ms": 3 * 60 * 1000,  # 3:00
+        "start_ms": 4 * 60 * 1000,  # 4:00
         "text": (
-            "In a moment I'm going to count down from ten to one. With each number, you will find yourself drifting twice as deep into total relaxation.\n\n"
-            "Twice as deep. Twice as peaceful. Twice as ready to receive everything I share with you tonight.\n\n"
-            "Ten. Going down now. Letting go.\n\n"
-            "Nine. Sinking deeper into the bed beneath you. Heavier.\n\n"
-            "Eight. Twice as deep as before. Your mind softening.\n\n"
-            "Seven. The outside world drifting further away. Only my voice now.\n\n"
-            "Six. Halfway there. Profoundly relaxed.\n\n"
-            "Five. Even deeper. Your subconscious wide open.\n\n"
-            "Four. So deeply relaxed, you feel like you are floating.\n\n"
-            "Three. The deepest level of trance you have ever experienced.\n\n"
-            "Two. Beyond thought. Beyond effort. Just being.\n\n"
+            "In a moment I am going to count down from ten to one. With each number, you will find yourself drifting twice as deep into total relaxation. <<3>>\n\n"
+            "Twice as deep. Twice as peaceful. Twice as ready to receive everything I share with you tonight. <<3>>\n\n"
+            "Ten. Going down now. Letting go. <<3>>\n\n"
+            "Nine. Sinking deeper into the bed beneath you. Heavier. <<3>>\n\n"
+            "Eight. Twice as deep as before. Your mind softening. <<3>>\n\n"
+            "Seven. The outside world drifting further away. Only my voice now. <<3>>\n\n"
+            "Six. Halfway there. Profoundly relaxed. <<3>>\n\n"
+            "Five. Even deeper. Your subconscious wide open. <<3>>\n\n"
+            "Four. So deeply relaxed, you feel like you are floating. <<3>>\n\n"
+            "Three. The deepest level of trance you have ever experienced. <<3>>\n\n"
+            "Two. Beyond thought. Beyond effort. Just being. <<3>>\n\n"
             "One. You are now in the perfect state to receive everything I say. Every word, every image, every suggestion goes deep into your subconscious mind, where it takes root, and grows."
         ),
     },
     {
         "name": "04_staircase_visualization",
-        "start_ms": 4 * 60 * 1000 + 30 * 1000,  # 4:30
+        "start_ms": 6 * 60 * 1000 + 30 * 1000,  # 6:30
         "text": (
-            "And in this state, I want you to imagine, in your mind's eye, that you are standing at the top of a beautiful staircase.\n\n"
-            "The staircase is yours. It descends gently into your perfect place. The place where the version of you who has already arrived lives.\n\n"
-            "There are ten steps down. With each step, you go deeper, and what you see becomes more vivid, more real.\n\n"
-            "Take the first step down now. Ten. And another. Nine. The image becoming clearer.\n\n"
-            "Eight. You can begin to see what is at the bottom. Seven. A warm light, welcoming you home.\n\n"
-            "Six. You feel your feet on each step, solid, real. Five. Halfway down.\n\n"
-            "Four. The light becomes brighter, more inviting. Three. You can feel the air of this place.\n\n"
-            "Two. One more step. One. You step off the staircase, and you are here.\n\n"
-            "Look around. This is your place. This is the version of your life where you have already arrived.\n\n"
-            "You are standing in front of a building. It is one of yours. One of your thirty doors. The number on the door is yours.\n\n"
-            "Walk inside. Feel the floors beneath your feet. Touch the walls. This is yours.\n\n"
-            "Now step outside again, and look down the street. There are more. Each one of them, owned by you. Each one of them, generating cash flow every single month, while you sleep.\n\n"
-            "Notice how it feels to own them. Notice the certainty in your body. Notice that this is not a fantasy. This is a memory. A future memory. A timeline already in motion."
+            "And in this state, I want you to imagine, in your mind's eye, that you are standing at the top of a beautiful staircase. <<4>>\n\n"
+            "The staircase is yours. It descends gently into your perfect place. The place where the version of you who has already arrived lives. <<3>>\n\n"
+            "There are ten steps down. With each step, you go deeper, and what you see becomes more vivid, more real. <<3>>\n\n"
+            "Take the first step down now. Ten. <<3>>\n\n"
+            "And another. Nine. The image becoming clearer. <<3>>\n\n"
+            "Eight. You can begin to see what is at the bottom. <<3>>\n\n"
+            "Seven. A warm light, welcoming you home. <<3>>\n\n"
+            "Six. You feel your feet on each step, solid, real. <<3>>\n\n"
+            "Five. Halfway down. <<3>>\n\n"
+            "Four. The light becomes brighter, more inviting. <<3>>\n\n"
+            "Three. You can feel the air of this place. <<3>>\n\n"
+            "Two. One more step. <<2>>\n\n"
+            "One. You step off the staircase, and you are here. <<5>>\n\n"
+            "Look around. <<4>> This is your place. This is the version of your life where you have already arrived. <<4>>\n\n"
+            "You are standing in front of a building. It is one of yours. One of your thirty doors. The number on the door is yours. <<5>>\n\n"
+            "Walk inside. <<3>> Feel the floors beneath your feet. <<3>> Touch the walls. <<3>> This is yours. <<4>>\n\n"
+            "Now step outside again, and look down the street. <<3>> There are more. Each one of them, owned by you. Each one of them, generating cash flow every single month, while you sleep. <<5>>\n\n"
+            "Notice how it feels to own them. <<3>> Notice the certainty in your body. <<3>> Notice that this is not a fantasy. This is a memory. A future memory. A timeline already in motion."
         ),
     },
     {
         "name": "05_identity_dichotic",
-        "start_ms": 6 * 60 * 1000 + 45 * 1000,  # 6:45
+        "start_ms": 10 * 60 * 1000,  # 10:00
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -120,7 +125,7 @@ SEGMENTS = [
     },
     {
         "name": "06_behavioral_dichotic",
-        "start_ms": 11 * 60 * 1000,  # 11:00
+        "start_ms": 14 * 60 * 1000,  # 14:00
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -142,22 +147,22 @@ SEGMENTS = [
     },
     {
         "name": "07_future_pacing",
-        "start_ms": 14 * 60 * 1000 + 30 * 1000,  # 14:30
+        "start_ms": 18 * 60 * 1000,  # 18:00
         "text": (
-            "Now, in your mind's eye, see yourself one year from now.\n\n"
-            "You are standing in front of a wall in your home office. On that wall is a map. Pins mark every property you own. Twenty more pins than there were a year ago. Fifty doors now. Fifty.\n\n"
-            "You walk to your desk. You see your accounts. The cash flow is real. The equity is real. It is all yours.\n\n"
-            "Your team handles operations. You spend your days finding the next deal. You are not stressed. You are not chasing. You are building. Calmly. Methodically. Inevitably.\n\n"
-            "Notice how your body feels in this future. Strong. Centered. Free.\n\n"
-            "Notice the relationships you have. Notice the time you spend with the people you love. Notice the man you have become.\n\n"
-            "Now reach forward, one year ahead of yourself, and shake your own hand. Thank yourself. Because you did it.\n\n"
-            "Every deal. Every offer. Every cold call. Every late night. It all paid off.\n\n"
+            "Now, in your mind's eye, see yourself one year from now. <<5>>\n\n"
+            "You are standing in front of a wall in your home office. <<3>> On that wall is a map. Pins mark every property you own. <<3>> Twenty more pins than there were a year ago. Fifty doors now. Fifty. <<5>>\n\n"
+            "You walk to your desk. <<2>> You see your accounts. <<2>> The cash flow is real. The equity is real. It is all yours. <<4>>\n\n"
+            "Your team handles operations. You spend your days finding the next deal. <<3>> You are not stressed. You are not chasing. You are building. Calmly. Methodically. Inevitably. <<4>>\n\n"
+            "Notice how your body feels in this future. <<3>> Strong. Centered. Free. <<4>>\n\n"
+            "Notice the relationships you have. <<2>> Notice the time you spend with the people you love. <<3>> Notice the man you have become. <<5>>\n\n"
+            "Now reach forward, one year ahead of yourself, and shake your own hand. <<3>> Thank yourself. Because you did it. <<4>>\n\n"
+            "Every deal. Every offer. Every cold call. Every late night. It all paid off. <<3>>\n\n"
             "And this version of you, this future version, is closer than you think. Because the path you are on, right now, leads directly here. Inevitably."
         ),
     },
     {
         "name": "07b_identity_dichotic_round2",
-        "start_ms": 16 * 60 * 1000 + 15 * 1000,  # 16:15
+        "start_ms": 20 * 60 * 1000,  # 20:00
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -179,7 +184,7 @@ SEGMENTS = [
     },
     {
         "name": "07c_behavioral_round2",
-        "start_ms": 20 * 60 * 1000 + 30 * 1000,  # 20:30
+        "start_ms": 23 * 60 * 1000,  # 23:00
         "repeat": 2,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -199,16 +204,16 @@ SEGMENTS = [
     },
     {
         "name": "08_sleep_transition",
-        "start_ms": 24 * 60 * 1000,  # 24:00
+        "start_ms": 25 * 60 * 1000,  # 25:00
         "text": (
-            "And now, as your body grows heavier, your mind drifts deeper. Everything I have said tonight is settling now. Into the place where beliefs live. Where identity is formed.\n\n"
-            "While you sleep tonight, your subconscious will rehearse, and organize, and reinforce. Every system. Every belief. Every action.\n\n"
-            "Your mind will sort the day. Will let go of what doesn't matter. Will hold tight to what does.\n\n"
-            "You will wake up tomorrow morning, clear, motivated, and already in motion. The path will feel obvious. The next step will feel obvious.\n\n"
-            "And every night you listen, the changes go deeper. The patterns become more permanent. You become more, of who you already are.\n\n"
-            "There is nothing for you to do now. Nothing to think about. Nothing to figure out.\n\n"
-            "Just drift. Deeper. And deeper. Into a perfect, healing, restful sleep.\n\n"
-            "Tomorrow you wake up new. Tomorrow you wake up ready.\n\n"
+            "And now, as your body grows heavier, your mind drifts deeper. <<3>> Everything I have said tonight is settling now. Into the place where beliefs live. Where identity is formed. <<4>>\n\n"
+            "While you sleep tonight, your subconscious will rehearse, and organize, and reinforce. Every system. Every belief. Every action. <<4>>\n\n"
+            "Your mind will sort the day. <<2>> Will let go of what doesn't matter. <<2>> Will hold tight to what does. <<4>>\n\n"
+            "You will wake up tomorrow morning, clear, motivated, and already in motion. The path will feel obvious. The next step will feel obvious. <<4>>\n\n"
+            "And every night you listen, the changes go deeper. The patterns become more permanent. You become more, of who you already are. <<4>>\n\n"
+            "There is nothing for you to do now. Nothing to think about. Nothing to figure out. <<4>>\n\n"
+            "Just drift. <<3>> Deeper. <<3>> And deeper. <<3>> Into a perfect, healing, restful sleep. <<5>>\n\n"
+            "Tomorrow you wake up new. Tomorrow you wake up ready. <<5>>\n\n"
             "Goodnight."
         ),
     },
@@ -219,14 +224,14 @@ PIPER_MODEL = os.environ.get("PIPER_MODEL", "/tmp/piper_models/en_GB-jenny_dioco
 TTS_BACKEND = os.environ.get("TTS_BACKEND", "auto")  # "elevenlabs", "piper", or "auto"
 
 
-def _piper_render(text: str, wav_path: Path, length_scale: float = 1.35):
+def _piper_render(text: str, wav_path: Path, length_scale: float = 1.15):
     import subprocess
     subprocess.run(
         [
             "piper",
             "--model", PIPER_MODEL,
             "--length_scale", str(length_scale),
-            "--sentence_silence", "0.4",
+            "--sentence_silence", "0.5",
             "--output_file", str(wav_path),
         ],
         input=text.encode("utf-8"),
@@ -237,25 +242,39 @@ def _piper_render(text: str, wav_path: Path, length_scale: float = 1.35):
 
 def piper_tts(text: str, out_path: Path) -> AudioSegment:
     """
-    Render text by paragraph (preserves natural prosody within a paragraph), with
-    short pauses between phrases via piper's built-in sentence_silence and a small
-    pause between paragraphs.
+    Render text by paragraph. Supports `<<N>>` markers inside text where N is the
+    pause duration in seconds (e.g. `<<3>>` = 3 second silent pause). These markers
+    let the script place explicit absorption pauses after instructions.
     """
+    import re
+
     wav_dir = out_path.parent / (out_path.stem + "_chunks")
     wav_dir.mkdir(parents=True, exist_ok=True)
 
-    # Convert ellipses inside the text to commas so piper treats them as natural
-    # mid-sentence pauses rather than us padding silence between separate renders.
+    pause_pattern = re.compile(r"<<(\d+(?:\.\d+)?)>>")
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
     rendered: list[AudioSegment] = []
+    chunk_idx = 0
     for p_idx, para in enumerate(paragraphs):
-        prosodic = para.replace("...", ",")
-        chunk_wav = wav_dir / f"{p_idx:02d}.wav"
-        _piper_render(prosodic, chunk_wav)
-        chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
-        rendered.append(chunk)
-        # Brief pause between paragraphs only
-        rendered.append(AudioSegment.silent(duration=500, frame_rate=SAMPLE_RATE).set_channels(2))
+        # Split on pause markers
+        parts = pause_pattern.split(para)
+        # parts pattern: [text, num, text, num, text, ...]
+        for i, part in enumerate(parts):
+            if i % 2 == 0:
+                clean = part.strip().replace("...", ",")
+                if not clean:
+                    continue
+                chunk_wav = wav_dir / f"{chunk_idx:03d}.wav"
+                chunk_idx += 1
+                _piper_render(clean, chunk_wav)
+                chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
+                rendered.append(chunk)
+            else:
+                pause_ms = int(float(part) * 1000)
+                rendered.append(AudioSegment.silent(duration=pause_ms, frame_rate=SAMPLE_RATE).set_channels(2))
+        # 0.5s between paragraphs unless paragraph already ends in explicit pause
+        if not paragraphs[p_idx].rstrip().endswith(">>"):
+            rendered.append(AudioSegment.silent(duration=600, frame_rate=SAMPLE_RATE).set_channels(2))
 
     full = sum(rendered, AudioSegment.silent(duration=0, frame_rate=SAMPLE_RATE).set_channels(2))
     full.export(out_path, format="mp3", bitrate="128k")
@@ -594,9 +613,9 @@ def main():
     ambient_track = ambient_track[:TOTAL_DURATION_MS]
 
     print("[mix] Layering tracks...")
-    # Voice at 0 dB reference. Binaural -22 dB. Ambient music -16 dB.
+    # Voice at 0 dB reference. Binaural -22 dB. Ambient music -8 dB (clearly audible).
     binaural_track = binaural_track - 22
-    ambient_track = ambient_track - 16
+    ambient_track = ambient_track - 8
 
     base = AudioSegment.silent(duration=TOTAL_DURATION_MS, frame_rate=SAMPLE_RATE).set_channels(2)
     mixed = base.overlay(ambient_track).overlay(binaural_track).overlay(voice_track)
@@ -629,7 +648,7 @@ def main():
     dichotic_count = sum(1 for s in SEGMENTS if "left_text" in s)
     print(f"Segments:      {len(SEGMENTS)} total ({dichotic_count} dichotic L/R)")
     print(f"Binaural:      200 Hz carrier, beat 10/7/4/2 Hz with 5s crossfades, -24 dB")
-    print(f"Ambient:       Ambient music pad (Am-F-C-G progression), -16 dB")
+    print(f"Ambient:       Ambient music pad (Am-F-C-G progression), -8 dB")
     print()
 
 
