@@ -145,30 +145,25 @@ def _piper_render(text: str, wav_path: Path, length_scale: float = 1.35):
 
 def piper_tts(text: str, out_path: Path) -> AudioSegment:
     """
-    Render text with hypnotic pacing: split on '...' and '\\n\\n', synthesize each
-    phrase separately, stitch with long silence between phrases (3-5s per spec).
+    Render text by paragraph (preserves natural prosody within a paragraph), with
+    short pauses between phrases via piper's built-in sentence_silence and a small
+    pause between paragraphs.
     """
-    import re
-
     wav_dir = out_path.parent / (out_path.stem + "_chunks")
     wav_dir.mkdir(parents=True, exist_ok=True)
 
-    # Split first on paragraph breaks (longer pause), then on ellipses (medium pause)
+    # Convert ellipses inside the text to commas so piper treats them as natural
+    # mid-sentence pauses rather than us padding silence between separate renders.
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
     rendered: list[AudioSegment] = []
     for p_idx, para in enumerate(paragraphs):
-        phrases = [ph.strip() for ph in re.split(r"\.{2,}", para) if ph.strip()]
-        for ph_idx, phrase in enumerate(phrases):
-            # Strip trailing punctuation that piper would dramatize awkwardly
-            clean = phrase.rstrip(",.;:")
-            chunk_wav = wav_dir / f"{p_idx:02d}_{ph_idx:02d}.wav"
-            _piper_render(clean + ".", chunk_wav)
-            chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
-            rendered.append(chunk)
-            # Pause between phrases within a paragraph: 3s (matches "3-5 second pauses" spec)
-            rendered.append(AudioSegment.silent(duration=3000, frame_rate=SAMPLE_RATE).set_channels(2))
-        # Longer pause between paragraphs
-        rendered.append(AudioSegment.silent(duration=2500, frame_rate=SAMPLE_RATE).set_channels(2))
+        prosodic = para.replace("...", ",")
+        chunk_wav = wav_dir / f"{p_idx:02d}.wav"
+        _piper_render(prosodic, chunk_wav)
+        chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
+        rendered.append(chunk)
+        # Brief pause between paragraphs only
+        rendered.append(AudioSegment.silent(duration=900, frame_rate=SAMPLE_RATE).set_channels(2))
 
     full = sum(rendered, AudioSegment.silent(duration=0, frame_rate=SAMPLE_RATE).set_channels(2))
     full.export(out_path, format="mp3", bitrate="128k")
@@ -368,41 +363,94 @@ def generate_pink_noise(duration_ms: int) -> np.ndarray:
     return out
 
 
+def _note_hz(midi: int) -> float:
+    return 440.0 * 2 ** ((midi - 69) / 12.0)
+
+
 def generate_ambient_track() -> AudioSegment:
     """
-    Soothing pink-noise bed with slow amplitude breathing (~0.08 Hz, ~12.5s cycle)
-    that mimics gentle ocean wave swell. Stereo decorrelated for width.
+    Slow ambient pad: A minor progression (Am - F - C - G) cycling at ~16s/chord,
+    each chord is a sine pad with octave + fifth + third, slight detune for warmth,
+    crossfaded so chord changes are seamless. Stereo movement via slow LFO panning.
     """
-    print("[ambient] Generating pink noise bed with wave modulation...")
-    pink = generate_pink_noise(TOTAL_DURATION_MS)
+    print("[ambient] Synthesizing ambient music pad (Am - F - C - G)...")
 
-    n_samples = pink.shape[0]
-    t = np.arange(n_samples) / SAMPLE_RATE
+    # Chord roots: A2, F2, C3, G2 — kept low so they don't fight voice
+    progression_midi = [
+        [45, 48, 52, 57],  # Am: A2, C3, E3, A3
+        [41, 45, 48, 53],  # F:  F2, A2, C3, F3
+        [48, 52, 55, 60],  # C:  C3, E3, G3, C4
+        [43, 47, 50, 55],  # G:  G2, B2, D3, G3
+    ]
+    chord_duration_s = 16.0
+    crossfade_s = 4.0
 
-    # Slow amplitude swell - sounds like distant ocean waves breathing in/out
-    swell = 0.55 + 0.45 * (0.5 + 0.5 * np.sin(2 * np.pi * 0.08 * t)).astype(np.float32)
-    pink = pink * swell
+    n_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
+    t_full = np.arange(n_samples) / SAMPLE_RATE
 
-    # Light low-pass smoothing via simple 1-pole filter for warmer character
-    out = np.zeros_like(pink)
-    alpha = 0.15
-    prev = 0.0
-    for i in range(n_samples):
-        prev = alpha * pink[i] + (1 - alpha) * prev
-        out[i] = prev
-    # Mix dry + filtered to keep some high-frequency air
-    mixed_mono = 0.4 * pink + 0.6 * out
-    peak = np.max(np.abs(mixed_mono)) or 1.0
-    mixed_mono = mixed_mono / peak * 0.9
+    out_left = np.zeros(n_samples, dtype=np.float32)
+    out_right = np.zeros(n_samples, dtype=np.float32)
 
-    # Stereo decorrelation: ~12 ms inter-channel delay for width
-    delay_samples = int(SAMPLE_RATE * 0.012)
-    left = mixed_mono
-    right = np.concatenate([np.zeros(delay_samples, dtype=np.float32), mixed_mono[:-delay_samples]])
+    chord_samples = int(chord_duration_s * SAMPLE_RATE)
+    cf_samples = int(crossfade_s * SAMPLE_RATE)
+    step = chord_samples - cf_samples
+    n_chords_needed = (n_samples // step) + 2
+
+    # Per-chord crossfade envelope: linear ramp up over cf, sustain, linear ramp down over cf
+    env = np.ones(chord_samples, dtype=np.float32)
+    env[:cf_samples] = np.linspace(0.0, 1.0, cf_samples)
+    env[-cf_samples:] = np.linspace(1.0, 0.0, cf_samples)
+
+    for i in range(n_chords_needed):
+        chord = progression_midi[i % len(progression_midi)]
+        start = i * step
+        if start >= n_samples:
+            break
+        end = min(start + chord_samples, n_samples)
+        length = end - start
+        local_t = np.arange(length) / SAMPLE_RATE
+
+        # Build chord: each note as sine + slightly detuned sine for chorusing
+        chord_wave_l = np.zeros(length, dtype=np.float32)
+        chord_wave_r = np.zeros(length, dtype=np.float32)
+        for j, midi in enumerate(chord):
+            freq = _note_hz(midi)
+            # Slight per-voice detune (±2-4 cents) for warmth
+            detune_cents = (j - 1.5) * 2.5
+            freq_l = freq * 2 ** (detune_cents / 1200.0)
+            freq_r = freq * 2 ** (-detune_cents / 1200.0)
+            phase_l = 2 * np.pi * freq_l * local_t + (j * 1.7)
+            phase_r = 2 * np.pi * freq_r * local_t + (j * 0.9)
+            # Lower notes louder for body
+            voice_amp = 0.32 if j == 0 else (0.24 if j == 1 else 0.18)
+            chord_wave_l += voice_amp * np.sin(phase_l).astype(np.float32)
+            chord_wave_r += voice_amp * np.sin(phase_r).astype(np.float32)
+
+        # Soft saturation for warmth
+        chord_wave_l = np.tanh(chord_wave_l * 0.9)
+        chord_wave_r = np.tanh(chord_wave_r * 0.9)
+
+        # Apply envelope (sliced to actual length)
+        local_env = env[:length]
+        chord_wave_l *= local_env
+        chord_wave_r *= local_env
+
+        out_left[start:end] += chord_wave_l
+        out_right[start:end] += chord_wave_r
+
+    # Slow stereo panning LFO (~0.04 Hz - one cycle per 25 sec) for gentle movement
+    pan_lfo = 0.15 * np.sin(2 * np.pi * 0.04 * t_full).astype(np.float32)
+    out_left *= (1.0 - pan_lfo)
+    out_right *= (1.0 + pan_lfo)
+
+    # Normalize
+    peak = max(np.max(np.abs(out_left)), np.max(np.abs(out_right))) or 1.0
+    out_left = out_left / peak * 0.85
+    out_right = out_right / peak * 0.85
 
     stereo = np.empty((n_samples, 2), dtype=np.float32)
-    stereo[:, 0] = left
-    stereo[:, 1] = right
+    stereo[:, 0] = out_left
+    stereo[:, 1] = out_right
     int16 = (stereo * 32767).astype(np.int16)
 
     seg = AudioSegment(
@@ -411,7 +459,7 @@ def generate_ambient_track() -> AudioSegment:
         sample_width=2,
         channels=2,
     )
-    print(f"[ambient] {len(seg)/1000:.0f}s generated")
+    print(f"[ambient] {len(seg)/1000:.0f}s of ambient pad generated")
     return seg
 
 
@@ -430,9 +478,9 @@ def main():
     ambient_track = ambient_track[:TOTAL_DURATION_MS]
 
     print("[mix] Layering tracks...")
-    # Voice at 0 dB reference. Binaural -24 dB. Ambient -15 dB (clearly audible wash).
-    binaural_track = binaural_track - 24
-    ambient_track = ambient_track - 15
+    # Voice at 0 dB reference. Binaural -22 dB. Ambient music -16 dB.
+    binaural_track = binaural_track - 22
+    ambient_track = ambient_track - 16
 
     base = AudioSegment.silent(duration=TOTAL_DURATION_MS, frame_rate=SAMPLE_RATE).set_channels(2)
     mixed = base.overlay(ambient_track).overlay(binaural_track).overlay(voice_track)
@@ -464,7 +512,7 @@ def main():
         print(f"Voice:         Piper TTS, model={Path(PIPER_MODEL).name}")
     print(f"Segments:      {len(SEGMENTS)} primary + {len(REINFORCEMENT_LINES)} reinforcement")
     print(f"Binaural:      200 Hz carrier, beat 10/7/4/2 Hz with 5s crossfades, -24 dB")
-    print(f"Ambient:       Pink noise with wave swell modulation, -15 dB")
+    print(f"Ambient:       Ambient music pad (Am-F-C-G progression), -16 dB")
     print()
 
 
