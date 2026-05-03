@@ -27,99 +27,191 @@ MODEL_ID = "eleven_multilingual_v2"
 
 SEGMENTS = [
     {
-        "name": "01_induction",
+        "name": "01_welcome",
         "start_ms": 0,
-        "end_ms": 4 * 60 * 1000,
-        "pan": 0.0,
         "text": (
-            "As you settle in... close your eyes... and let your body sink into the surface beneath you...\n\n"
-            "Take a slow, deep breath in... and let it out completely... letting go of the day...\n\n"
-            "Each breath now... is taking you deeper... softer... heavier...\n\n"
-            "Feel the weight of your body... being supported... fully... completely...\n\n"
-            "You don't have to do anything... you don't have to think about anything... just listen... and let my voice guide you down...\n\n"
-            "With every word I speak... you go deeper... and deeper... into a state of complete relaxation..."
+            "Welcome.\n\n"
+            "Find a comfortable position now. Lying down, with your head supported, your arms relaxed at your sides, your legs uncrossed.\n\n"
+            "You don't need to do anything except listen. Just listen to my voice, and let everything else fall away.\n\n"
+            "This is your time. Time to let go of the day. Time to step into the version of yourself you have always known you could become.\n\n"
+            "Tonight, your subconscious mind takes over the work. While you drift off to sleep, every word, every image, every belief I share will be absorbed deep into the part of you that builds your future. And tomorrow, you will wake up changed."
         ),
     },
     {
-        "name": "02_deepener",
-        "start_ms": 4 * 60 * 1000,
-        "end_ms": 7 * 60 * 1000,
-        "pan": 0.0,
+        "name": "02_progressive_relaxation",
+        "start_ms": 50 * 1000,  # 0:50
         "text": (
-            "As you drift down... I want you to imagine a beautiful place... a place that is yours... a place where everything you want already exists...\n\n"
-            "This is the version of your life... where you have already arrived...\n\n"
-            "Where you own thirty doors... thirty properties... generating cash flow every single month... while you sleep...\n\n"
-            "You see them clearly now... real, tangible, yours...\n\n"
-            "And the man who owns them... is the man you already are..."
+            "Now, take a slow, deep breath in through your nose. Fill your lungs completely. And let it out slowly through your mouth.\n\n"
+            "Again, breathe in deeply, and exhale, releasing everything that no longer serves you tonight.\n\n"
+            "One more breath. In through the nose, hold for a moment, and out, letting your whole body melt into the surface beneath you.\n\n"
+            "Now bring your awareness down to your feet. Feel your feet, all the way to the tips of your toes. And as you breathe out, let your feet become heavy, soft, completely relaxed.\n\n"
+            "Move that feeling up now into your calves and your shins. Let your lower legs become loose, warm, completely supported by the bed beneath you.\n\n"
+            "Bring the relaxation up into your knees, and your thighs. Let those large muscles of your legs surrender, become heavy, sink down.\n\n"
+            "Now feel your hips, and your lower back. Notice any tension there, and as you exhale, let it release. Let your hips sink down into the bed.\n\n"
+            "Bring the relaxation up through your stomach, and your chest. Feel your breathing slow and deepen. Each breath gentler than the last.\n\n"
+            "Drop your shoulders now. Drop them away from your ears. Let your arms become heavy, your hands relaxed, your fingers soft.\n\n"
+            "Bring the relaxation now to your neck, and the back of your head. Let your jaw soften. Let your tongue rest gently behind your teeth.\n\n"
+            "Soften the muscles around your eyes. Smooth the muscles of your forehead. Let your whole face relax.\n\n"
+            "Your whole body now is heavy, warm, completely at ease. And you are going deeper, with every breath."
         ),
     },
     {
-        "name": "03_identity_reframe",
-        "start_ms": 7 * 60 * 1000,
-        "end_ms": 14 * 60 * 1000,
-        "pan": 0.0,
+        "name": "03_countdown_deepener",
+        "start_ms": 3 * 60 * 1000,  # 3:00
         "text": (
-            "You are a successful real estate investor...\n\n"
-            "You own thirty cash flowing properties... and the number is still growing...\n\n"
-            "You close deals with creative financing... seller financing... subject to... lease options... you know how to structure deals other people can't see...\n\n"
-            "You are decisive... you act on opportunities the moment you see them...\n\n"
-            "You finish what you start... you do not stop when things get easier... you scale...\n\n"
-            "When you reach a milestone... your subconscious mind drives you to the next one... immediately... naturally... without effort...\n\n"
-            "You are a man who follows through... on every system you build... every routine you commit to... every promise you make to yourself...\n\n"
-            "The version of you who quits... no longer exists... that man is gone...\n\n"
-            "In his place... is a man who executes... daily... without negotiation... without hesitation..."
+            "In a moment I'm going to count down from ten to one. With each number, you will find yourself drifting twice as deep into total relaxation.\n\n"
+            "Twice as deep. Twice as peaceful. Twice as ready to receive everything I share with you tonight.\n\n"
+            "Ten. Going down now. Letting go.\n\n"
+            "Nine. Sinking deeper into the bed beneath you. Heavier.\n\n"
+            "Eight. Twice as deep as before. Your mind softening.\n\n"
+            "Seven. The outside world drifting further away. Only my voice now.\n\n"
+            "Six. Halfway there. Profoundly relaxed.\n\n"
+            "Five. Even deeper. Your subconscious wide open.\n\n"
+            "Four. So deeply relaxed, you feel like you are floating.\n\n"
+            "Three. The deepest level of trance you have ever experienced.\n\n"
+            "Two. Beyond thought. Beyond effort. Just being.\n\n"
+            "One. You are now in the perfect state to receive everything I say. Every word, every image, every suggestion goes deep into your subconscious mind, where it takes root, and grows."
         ),
     },
     {
-        "name": "04_behavioral_anchoring",
-        "start_ms": 14 * 60 * 1000,
-        "end_ms": 20 * 60 * 1000,
-        "pan": 0.0,
+        "name": "04_staircase_visualization",
+        "start_ms": 4 * 60 * 1000 + 30 * 1000,  # 4:30
         "text": (
-            "Every morning... you open PropStream... you analyze deals... you make offers...\n\n"
-            "You contact sellers... you build relationships... you negotiate from a position of certainty...\n\n"
-            "You use Claude Code... you build your acquisition systems... you automate what other investors do manually...\n\n"
-            "You move forward every single day... no matter how you feel... no matter what is happening around you...\n\n"
-            "The discipline... is not something you have to summon... it is who you are...\n\n"
-            "You are organized... your time is structured... your priorities are clear...\n\n"
-            "You no longer want substances that dull your edge... you have no interest in marijuana... no interest in anything that takes you off your path... your mind is sharp... clear... focused on the next deal..."
+            "And in this state, I want you to imagine, in your mind's eye, that you are standing at the top of a beautiful staircase.\n\n"
+            "The staircase is yours. It descends gently into your perfect place. The place where the version of you who has already arrived lives.\n\n"
+            "There are ten steps down. With each step, you go deeper, and what you see becomes more vivid, more real.\n\n"
+            "Take the first step down now. Ten. And another. Nine. The image becoming clearer.\n\n"
+            "Eight. You can begin to see what is at the bottom. Seven. A warm light, welcoming you home.\n\n"
+            "Six. You feel your feet on each step, solid, real. Five. Halfway down.\n\n"
+            "Four. The light becomes brighter, more inviting. Three. You can feel the air of this place.\n\n"
+            "Two. One more step. One. You step off the staircase, and you are here.\n\n"
+            "Look around. This is your place. This is the version of your life where you have already arrived.\n\n"
+            "You are standing in front of a building. It is one of yours. One of your thirty doors. The number on the door is yours.\n\n"
+            "Walk inside. Feel the floors beneath your feet. Touch the walls. This is yours.\n\n"
+            "Now step outside again, and look down the street. There are more. Each one of them, owned by you. Each one of them, generating cash flow every single month, while you sleep.\n\n"
+            "Notice how it feels to own them. Notice the certainty in your body. Notice that this is not a fantasy. This is a memory. A future memory. A timeline already in motion."
         ),
     },
     {
-        "name": "05_future_pacing",
-        "start_ms": 20 * 60 * 1000,
-        "end_ms": 25 * 60 * 1000,
-        "pan": 0.0,
-        "text": (
-            "See yourself one year from now... twenty more doors closed... cash flow funding your life... your team running operations... while you find the next deal...\n\n"
-            "Feel the bank account... feel the equity... feel the freedom...\n\n"
-            "This is not a fantasy... this is your timeline... already in motion... already inevitable..."
+        "name": "05_identity_dichotic",
+        "start_ms": 6 * 60 * 1000 + 45 * 1000,  # 6:45
+        "repeat": 4,
+        "repeat_gap_ms": 3000,
+        "left_text": (
+            "You are a successful real estate investor.\n\n"
+            "You own thirty cash flowing properties, and the number is still growing.\n\n"
+            "You close deals with creative financing. Seller financing. Subject to. Lease options.\n\n"
+            "You see opportunity where others see only risk.\n\n"
+            "You are decisive. You act on opportunities the moment you see them.\n\n"
+            "You finish what you start. You scale beyond every milestone.\n\n"
+            "You are a man who follows through. On every system you build. Every routine you commit to. Every promise you make to yourself.\n\n"
+            "The version of you who quits is gone. In his place is a man who executes daily."
+        ),
+        "right_text": (
+            "I am a successful real estate investor.\n\n"
+            "I own thirty cash flowing properties.\n\n"
+            "I structure deals other people cannot see.\n\n"
+            "I am calm under pressure. I am clear in my decisions.\n\n"
+            "The deals come to me. I attract the right opportunities.\n\n"
+            "I act with certainty. I finish what I start, because that is who I am.\n\n"
+            "I scale. I do not stop. The version of me who hesitates no longer exists.\n\n"
+            "I am the man who shows up. Without negotiation. Without hesitation."
         ),
     },
     {
-        "name": "06_sleep_transition",
-        "start_ms": 25 * 60 * 1000,
-        "end_ms": 28 * 60 * 1000 + 30 * 1000,  # leave last 90s for fade-out silence
-        "pan": 0.0,
-        "text": (
-            "And now... as your body grows heavier... your mind drifts deeper... let everything I have said... sink down... into the deepest part of you...\n\n"
-            "While you sleep tonight... your subconscious will rehearse... organize... and reinforce... every system... every belief... every action...\n\n"
-            "You will wake up tomorrow... clear... motivated... and already in motion...\n\n"
-            "Drift now... deeper... and deeper... into a perfect... healing... sleep...\n\n"
-            "Goodnight..."
+        "name": "06_behavioral_dichotic",
+        "start_ms": 11 * 60 * 1000,  # 11:00
+        "repeat": 4,
+        "repeat_gap_ms": 3000,
+        "left_text": (
+            "Every morning, you open PropStream. You analyze deals. You make offers.\n\n"
+            "You contact sellers. You build relationships. You negotiate from a position of certainty.\n\n"
+            "You use Claude Code. You build your acquisition systems. You automate what other investors do manually.\n\n"
+            "You move forward every single day. No matter how you feel. No matter what is happening around you.\n\n"
+            "Your discipline is not something you summon. It is who you are.\n\n"
+            "You are organized. Your time is structured. Your priorities are clear."
+        ),
+        "right_text": (
+            "My mind is sharp. My focus is clear.\n\n"
+            "I have no interest in marijuana. I have no interest in anything that dulls my edge.\n\n"
+            "I have no interest in anything that takes me off my path.\n\n"
+            "Substances no longer call to me. The next deal calls to me.\n\n"
+            "The next acquisition calls to me. Building my empire calls to me.\n\n"
+            "I am free. Clean. Focused. On the version of me who is already winning."
         ),
     },
-]
-
-# Reinforcement layer for segments 3 and 4 - panned secondary phrases
-# These play softly in alternating ears underneath the primary affirmation segments.
-REINFORCEMENT_LINES = [
-    ("you are decisive", -0.6),
-    ("you execute daily", 0.6),
-    ("you follow through", -0.6),
-    ("you scale", 0.6),
-    ("the deals come to you", -0.6),
-    ("you are inevitable", 0.6),
+    {
+        "name": "07_future_pacing",
+        "start_ms": 14 * 60 * 1000 + 30 * 1000,  # 14:30
+        "text": (
+            "Now, in your mind's eye, see yourself one year from now.\n\n"
+            "You are standing in front of a wall in your home office. On that wall is a map. Pins mark every property you own. Twenty more pins than there were a year ago. Fifty doors now. Fifty.\n\n"
+            "You walk to your desk. You see your accounts. The cash flow is real. The equity is real. It is all yours.\n\n"
+            "Your team handles operations. You spend your days finding the next deal. You are not stressed. You are not chasing. You are building. Calmly. Methodically. Inevitably.\n\n"
+            "Notice how your body feels in this future. Strong. Centered. Free.\n\n"
+            "Notice the relationships you have. Notice the time you spend with the people you love. Notice the man you have become.\n\n"
+            "Now reach forward, one year ahead of yourself, and shake your own hand. Thank yourself. Because you did it.\n\n"
+            "Every deal. Every offer. Every cold call. Every late night. It all paid off.\n\n"
+            "And this version of you, this future version, is closer than you think. Because the path you are on, right now, leads directly here. Inevitably."
+        ),
+    },
+    {
+        "name": "07b_identity_dichotic_round2",
+        "start_ms": 16 * 60 * 1000 + 15 * 1000,  # 16:15
+        "repeat": 3,
+        "repeat_gap_ms": 3000,
+        "left_text": (
+            "You are the man who builds his own freedom.\n\n"
+            "Every door you own is a piece of your independence.\n\n"
+            "You move with confidence. You make decisions quickly.\n\n"
+            "You see the path to thirty doors clearly.\n\n"
+            "And beyond thirty, you see fifty. You see one hundred.\n\n"
+            "You build wealth that compounds, that lasts, that frees the people you love."
+        ),
+        "right_text": (
+            "I am calm. I am focused. I am unstoppable.\n\n"
+            "Every action I take is intentional.\n\n"
+            "Money flows to me, because I create real value.\n\n"
+            "I am building a legacy.\n\n"
+            "I am building security. I am building freedom.\n\n"
+            "Nothing in the world can shake my certainty about who I am becoming."
+        ),
+    },
+    {
+        "name": "07c_behavioral_round2",
+        "start_ms": 20 * 60 * 1000 + 30 * 1000,  # 20:30
+        "repeat": 2,
+        "repeat_gap_ms": 3000,
+        "left_text": (
+            "Every morning, you wake up clear and motivated.\n\n"
+            "You take action before you check your phone.\n\n"
+            "You analyze deals. You make offers. You follow up.\n\n"
+            "You build your team. You delegate what you should not be doing.\n\n"
+            "You stay in your zone of genius. You acquire."
+        ),
+        "right_text": (
+            "I am grateful for this body and mind.\n\n"
+            "I treat them as the engines of my mission.\n\n"
+            "I sleep deeply. I eat clean. I move daily.\n\n"
+            "I do not numb. I do not avoid. I do not hide.\n\n"
+            "I face every day with full presence and full power."
+        ),
+    },
+    {
+        "name": "08_sleep_transition",
+        "start_ms": 24 * 60 * 1000,  # 24:00
+        "text": (
+            "And now, as your body grows heavier, your mind drifts deeper. Everything I have said tonight is settling now. Into the place where beliefs live. Where identity is formed.\n\n"
+            "While you sleep tonight, your subconscious will rehearse, and organize, and reinforce. Every system. Every belief. Every action.\n\n"
+            "Your mind will sort the day. Will let go of what doesn't matter. Will hold tight to what does.\n\n"
+            "You will wake up tomorrow morning, clear, motivated, and already in motion. The path will feel obvious. The next step will feel obvious.\n\n"
+            "And every night you listen, the changes go deeper. The patterns become more permanent. You become more, of who you already are.\n\n"
+            "There is nothing for you to do now. Nothing to think about. Nothing to figure out.\n\n"
+            "Just drift. Deeper. And deeper. Into a perfect, healing, restful sleep.\n\n"
+            "Tomorrow you wake up new. Tomorrow you wake up ready.\n\n"
+            "Goodnight."
+        ),
+    },
 ]
 
 
@@ -163,7 +255,7 @@ def piper_tts(text: str, out_path: Path) -> AudioSegment:
         chunk = AudioSegment.from_file(chunk_wav, format="wav").set_channels(2).set_frame_rate(SAMPLE_RATE)
         rendered.append(chunk)
         # Brief pause between paragraphs only
-        rendered.append(AudioSegment.silent(duration=900, frame_rate=SAMPLE_RATE).set_channels(2))
+        rendered.append(AudioSegment.silent(duration=500, frame_rate=SAMPLE_RATE).set_channels(2))
 
     full = sum(rendered, AudioSegment.silent(duration=0, frame_rate=SAMPLE_RATE).set_channels(2))
     full.export(out_path, format="mp3", bitrate="128k")
@@ -231,45 +323,69 @@ def fit_segment_to_window(voice: AudioSegment, window_ms: int) -> AudioSegment:
 
 def build_voice_track() -> AudioSegment:
     """Generate all segments, place at correct timing offsets, return full voice track."""
-    print("[voice] Generating segments via ElevenLabs...")
+    print("[voice] Generating segments...")
     full = AudioSegment.silent(duration=TOTAL_DURATION_MS, frame_rate=SAMPLE_RATE).set_channels(2)
 
     for seg in SEGMENTS:
-        cache_path = WORK_DIR / f"{seg['name']}.mp3"
-        if cache_path.exists() and cache_path.stat().st_size > 1000:
-            print(f"[voice]   {seg['name']}: cached")
-            voice = AudioSegment.from_file(cache_path, format="mp3")
+        if "left_text" in seg and "right_text" in seg:
+            # Dichotic: separate L and R streams, hard panned, layered at same start.
+            left_cache = WORK_DIR / f"{seg['name']}_L.mp3"
+            right_cache = WORK_DIR / f"{seg['name']}_R.mp3"
+
+            if left_cache.exists() and left_cache.stat().st_size > 1000:
+                print(f"[voice]   {seg['name']} L: cached")
+                left_voice = AudioSegment.from_file(left_cache, format="mp3")
+            else:
+                print(f"[voice]   {seg['name']} L: generating ({len(seg['left_text'])} chars)")
+                left_voice = tts(seg["left_text"], left_cache)
+
+            if right_cache.exists() and right_cache.stat().st_size > 1000:
+                print(f"[voice]   {seg['name']} R: cached")
+                right_voice = AudioSegment.from_file(right_cache, format="mp3")
+            else:
+                print(f"[voice]   {seg['name']} R: generating ({len(seg['right_text'])} chars)")
+                right_voice = tts(seg["right_text"], right_cache)
+
+            left_voice = left_voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
+            right_voice = right_voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
+
+            # Hard pan
+            left_voice = pan_segment(left_voice, -1.0)
+            right_voice = pan_segment(right_voice, 1.0)
+
+            # Pad shorter to match longer so the pair ends together (the McKenna
+            # "converge at the end" feel comes from both streams running concurrently).
+            max_len = max(len(left_voice), len(right_voice))
+            if len(left_voice) < max_len:
+                left_voice += AudioSegment.silent(duration=max_len - len(left_voice), frame_rate=SAMPLE_RATE).set_channels(2)
+            if len(right_voice) < max_len:
+                right_voice += AudioSegment.silent(duration=max_len - len(right_voice), frame_rate=SAMPLE_RATE).set_channels(2)
+
+            repeat = seg.get("repeat", 1)
+            gap_ms = seg.get("repeat_gap_ms", 2500)
+            lead_in = AudioSegment.silent(duration=1000, frame_rate=SAMPLE_RATE).set_channels(2)
+            for r in range(repeat):
+                offset = seg["start_ms"] + r * (max_len + gap_ms)
+                full = full.overlay(lead_in + left_voice, position=offset)
+                full = full.overlay(lead_in + right_voice, position=offset)
+            total_len = repeat * max_len + (repeat - 1) * gap_ms
+            print(f"[voice]   {seg['name']} (dichotic x{repeat}): placed at {seg['start_ms']/1000:.0f}s, total {total_len/1000:.1f}s")
         else:
-            print(f"[voice]   {seg['name']}: generating ({len(seg['text'])} chars)")
-            voice = tts(seg["text"], cache_path)
+            cache_path = WORK_DIR / f"{seg['name']}.mp3"
+            if cache_path.exists() and cache_path.stat().st_size > 1000:
+                print(f"[voice]   {seg['name']}: cached")
+                voice = AudioSegment.from_file(cache_path, format="mp3")
+            else:
+                print(f"[voice]   {seg['name']}: generating ({len(seg['text'])} chars)")
+                voice = tts(seg["text"], cache_path)
 
-        voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
-        if seg["pan"] != 0.0:
-            voice = pan_segment(voice, seg["pan"])
+            voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
 
-        # leading silence inside segment to ease entry
-        lead_in = AudioSegment.silent(duration=2000, frame_rate=SAMPLE_RATE).set_channels(2)
-        voice = lead_in + voice
+            lead_in = AudioSegment.silent(duration=1000, frame_rate=SAMPLE_RATE).set_channels(2)
+            voice = lead_in + voice
 
-        full = full.overlay(voice, position=seg["start_ms"])
-        print(f"[voice]   {seg['name']}: placed at {seg['start_ms']/1000:.0f}s, voice length {len(voice)/1000:.1f}s")
-
-    # Generate panned reinforcement lines and overlay underneath segment 3 (7-14 min)
-    print("[voice] Generating reinforcement lines (panned)...")
-    seg3_start = 7 * 60 * 1000
-    seg3_window = 7 * 60 * 1000  # 7 minutes
-    spacing = seg3_window // (len(REINFORCEMENT_LINES) + 1)
-    for i, (line, pan) in enumerate(REINFORCEMENT_LINES):
-        cache_path = WORK_DIR / f"reinforce_{i}.mp3"
-        if cache_path.exists() and cache_path.stat().st_size > 500:
-            voice = AudioSegment.from_file(cache_path, format="mp3")
-        else:
-            voice = tts(line, cache_path)
-        voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
-        voice = pan_segment(voice, pan) - 6  # -6 dB so it sits underneath
-        position = seg3_start + (i + 1) * spacing
-        full = full.overlay(voice, position=position)
-        print(f"[voice]   reinforce '{line[:30]}' pan={pan:+.1f} at {position/1000:.0f}s")
+            full = full.overlay(voice, position=seg["start_ms"])
+            print(f"[voice]   {seg['name']}: placed at {seg['start_ms']/1000:.0f}s, voice length {len(voice)/1000:.1f}s")
 
     return full[:TOTAL_DURATION_MS]
 
@@ -510,7 +626,8 @@ def main():
         print(f"Voice:         ElevenLabs voice_id={VOICE_ID}, model={MODEL_ID}")
     else:
         print(f"Voice:         Piper TTS, model={Path(PIPER_MODEL).name}")
-    print(f"Segments:      {len(SEGMENTS)} primary + {len(REINFORCEMENT_LINES)} reinforcement")
+    dichotic_count = sum(1 for s in SEGMENTS if "left_text" in s)
+    print(f"Segments:      {len(SEGMENTS)} total ({dichotic_count} dichotic L/R)")
     print(f"Binaural:      200 Hz carrier, beat 10/7/4/2 Hz with 5s crossfades, -24 dB")
     print(f"Ambient:       Ambient music pad (Am-F-C-G progression), -16 dB")
     print()
