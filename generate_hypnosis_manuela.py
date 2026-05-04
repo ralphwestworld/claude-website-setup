@@ -1,6 +1,10 @@
 """
-Bedtime Hypnosis Audio Generator - Portuguese version for Manuela.
-Trigger reversal + self-care drilling + true dichotic listening with convergence.
+Bedtime Hypnosis Audio Generator - Manuela v2 (PT-BR, first-person).
+- All affirmations / instructions self-spoken ("eu sou", "eu respiro", "eu volto")
+- Anchor reversal core
+- True dichotic listening with phrase-pair convergence
+- Self-care drilling, family/support reinforcement, perfect-day visualization
+- Soothing voice settings, finalised goodnight intonation
 """
 
 import io
@@ -12,125 +16,150 @@ import numpy as np
 from pydub import AudioSegment
 
 OUTPUT_DIR = Path("/mnt/user-data/outputs")
-OUTPUT_FILE = OUTPUT_DIR / "bedtime_hypnosis_manuela_v1.mp3"
-WORK_DIR = Path("/tmp/hypnosis_manuela_build")
+OUTPUT_FILE = OUTPUT_DIR / "bedtime_hypnosis_manuela_v2.mp3"
+WORK_DIR = Path("/tmp/hypnosis_manuela_v2_build")
 WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 30 * 60 * 1000  # 30 minutes
+TOTAL_DURATION_MS = 36 * 60 * 1000  # 36 minutes total
 
 VOICE_ID = "t9UJ0smqFgPZJnchMfob"  # Manuela cloned
 MODEL_ID = "eleven_multilingual_v2"
 
-# Pause-marker syntax: <<N>>  -> N seconds of silence (absorption pause)
-# Dichotic phrase boundary: --- on its own line within left_text/right_text
+# Standard soothing voice settings
+VOICE_SETTINGS = {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.0,
+    "speed": 0.85,
+    "use_speaker_boost": True,
+}
+
+# Higher-stability settings for the final goodnight (forces falling/terminal intonation)
+VOICE_SETTINGS_FINAL = {
+    "stability": 0.9,
+    "similarity_boost": 0.85,
+    "style": 0.0,
+    "speed": 0.8,
+    "use_speaker_boost": True,
+}
 
 SEGMENTS = [
     {
         "name": "01_boas_vindas",
         "start_ms": 0,
         "text": (
-            "Olá. <<2>>\n\n"
-            "Encontre uma posição confortável agora. Deitada, com o corpo relaxado, os braços soltos ao lado do corpo. <<3>>\n\n"
-            "Você não precisa fazer nada. Apenas ouvir. Deixar a minha voz te guiar. <<2>>\n\n"
-            "Esse é o seu momento. Enquanto você descansa, sua mente se reorganiza. Cada palavra que eu disser vai sendo absorvida bem fundo, no lugar onde as mudanças acontecem de verdade."
+            "Aqui estou eu. <<2>>\n\n"
+            "Em uma posição confortável, deitada, meu corpo relaxado, meus braços soltos ao lado do corpo. <<3>>\n\n"
+            "Não preciso fazer nada. Apenas ouvir minha própria voz. <<2>>\n\n"
+            "Esse é o meu momento. Enquanto eu descanso, minha mente se reorganiza. Cada palavra que eu digo vai sendo absorvida bem fundo, no lugar onde as mudanças acontecem de verdade."
         ),
     },
     {
         "name": "02_relaxamento",
-        "start_ms": 70 * 1000,  # 1:10
+        "start_ms": 70 * 1000,
         "text": (
-            "Agora respire fundo, bem fundo, pelo nariz. <<4>> Encha completamente os pulmões. <<3>> E solte o ar bem devagar pela boca. Bem devagar. <<5>>\n\n"
-            "Mais uma vez. Inspire profundamente. <<4>> Sinta o ar entrando, expandindo o peito. <<3>> Expire devagar, soltando tudo o que não precisa mais ficar com você hoje. <<5>>\n\n"
-            "Mais uma. Inspire. <<4>> Segure por um momento. <<2>> Expire, deixando o corpo afundar mais na cama. <<5>>\n\n"
-            "Mais uma. Bem fundo. <<3>> Ao soltar, perceba como o corpo já está mais pesado. Como se cada exhalação te levasse mais fundo. <<5>>\n\n"
+            "Eu respiro fundo, bem fundo, pelo nariz. <<4>> Encho completamente meus pulmões. <<3>> E solto o ar bem devagar pela boca. Bem devagar. <<5>>\n\n"
+            "Mais uma vez. Inspiro profundamente. <<4>> Sinto o ar entrando, expandindo o meu peito. <<3>> Expiro devagar, soltando tudo o que eu não preciso mais. <<5>>\n\n"
+            "Mais uma. Inspiro. <<4>> Seguro por um momento. <<2>> Expiro, deixando meu corpo afundar mais na cama. <<5>>\n\n"
+            "Mais uma. Bem fundo. <<3>> Ao soltar, percebo como meu corpo já está mais pesado. Como se cada exhalação me levasse mais fundo. <<5>>\n\n"
             "A cada respiração agora, mais profundo. Mais solta. Mais entregue. <<5>>\n\n"
-            "Traga sua atenção para os pés. <<3>> Sinta cada dedo. <<3>> Os pés ficam pesados, soltos, quentinhos. Como se estivessem afundando suavemente. <<4>>\n\n"
-            "Suba a sensação para as panturrilhas, para as canelas. <<3>> As pernas relaxam. Ficam macias, pesadas. <<4>>\n\n"
-            "Suba até os joelhos e as coxas. <<2>> As pernas inteiras se entregam. Pesadas. Sem força. Apenas descansando. <<4>>\n\n"
+            "Trago minha atenção para os meus pés. <<3>> Sinto cada dedo. <<3>> Meus pés ficam pesados, soltos, quentinhos. Como se estivessem afundando suavemente. <<4>>\n\n"
+            "Subo a sensação para as minhas panturrilhas, para as minhas canelas. <<3>> Minhas pernas relaxam. Ficam macias, pesadas. <<4>>\n\n"
+            "Subo até os meus joelhos e as minhas coxas. <<2>> Minhas pernas inteiras se entregam. Pesadas. Sem força. Apenas descansando. <<4>>\n\n"
             "Indo mais fundo. <<3>>\n\n"
-            "Sinta o quadril e a parte de baixo das costas. <<2>> Solte qualquer tensão acumulada ali. <<3>> O quadril desce mais. Confortável. <<4>>\n\n"
-            "Suba até a barriga. O peito. <<2>> Sua respiração fica mais lenta. Mais leve. Mais natural. <<4>>\n\n"
-            "Cada respiração te leva mais fundo. <<5>>\n\n"
-            "Solte os ombros. Deixe os ombros caírem, longe das orelhas. <<3>> Os braços ficam pesados, sem peso. As mãos descansam totalmente. <<4>>\n\n"
-            "Solte o pescoço. Solte a mandíbula. <<3>> Deixe a mandíbula bem solta, a língua relaxada. <<3>>\n\n"
-            "Solte os músculos ao redor dos olhos. Solte a testa. <<3>> O rosto inteiro fica sereno. <<4>>\n\n"
-            "Seu corpo inteiro agora está pesado, quente, totalmente em paz. <<3>>\n\n"
-            "Você está indo cada vez mais fundo, com cada respiração. Mais e mais profundo."
+            "Sinto o meu quadril e a parte de baixo das minhas costas. <<2>> Solto qualquer tensão acumulada ali. <<3>> Meu quadril desce mais. Confortável. <<4>>\n\n"
+            "Subo até a minha barriga. O meu peito. <<2>> Minha respiração fica mais lenta. Mais leve. Mais natural. <<4>>\n\n"
+            "Cada respiração me leva mais fundo. <<5>>\n\n"
+            "Solto os meus ombros. Deixo os ombros caírem, longe das orelhas. <<3>> Meus braços ficam pesados, sem peso. Minhas mãos descansam totalmente. <<4>>\n\n"
+            "Solto o meu pescoço. Solto a minha mandíbula. <<3>> Deixo a mandíbula bem solta, a língua relaxada. <<3>>\n\n"
+            "Solto os músculos ao redor dos meus olhos. Solto a minha testa. <<3>> Meu rosto inteiro fica sereno. <<4>>\n\n"
+            "Meu corpo inteiro agora está pesado, quente, totalmente em paz. <<3>>\n\n"
+            "Estou indo cada vez mais fundo, com cada respiração. Mais e mais profundo."
         ),
     },
     {
         "name": "03_contagem",
-        "start_ms": 5 * 60 * 1000,  # 5:00
+        "start_ms": 5 * 60 * 1000 + 30 * 1000,  # 5:30
         "text": (
-            "Daqui a pouco eu vou contar de dez até um. <<3>> A cada número, você vai duas vezes mais fundo do que estava antes. <<4>>\n\n"
+            "Daqui a pouco eu vou contar de dez até um. <<3>> A cada número, eu vou duas vezes mais fundo do que estava antes. <<4>>\n\n"
             "Duas vezes mais profunda. Duas vezes mais relaxada. Duas vezes mais aberta. <<5>>\n\n"
             "Dez. Descendo agora. Soltando completamente. Como se estivesse descendo uma escada suave. <<4>>\n\n"
-            "Nove. Mais fundo. Mais pesada. O corpo afunda mais. <<4>>\n\n"
-            "Oito. Duas vezes mais fundo do que no número anterior. A mente fica suave, leve, tranquila. <<4>>\n\n"
-            "Sete. O mundo lá fora vai ficando longe. Os sons distantes. Só a minha voz importa agora. <<4>>\n\n"
+            "Nove. Mais fundo. Mais pesada. Meu corpo afunda mais. <<4>>\n\n"
+            "Oito. Duas vezes mais fundo do que no número anterior. Minha mente fica suave, leve, tranquila. <<4>>\n\n"
+            "Sete. O mundo lá fora vai ficando longe. Os sons distantes. Apenas a minha voz importa agora. <<4>>\n\n"
             "Seis. Metade do caminho. Profundamente relaxada. Respirando devagar, naturalmente. <<4>>\n\n"
-            "Cinco. Ainda mais fundo. Seu subconsciente está aberto, receptivo, pronto. <<4>>\n\n"
-            "Quatro. Tão relaxada que parece que você está flutuando. Leve. Sem peso. <<4>>\n\n"
-            "Três. O nível mais profundo de descanso que você já conheceu. Mais profundo do que o sono. <<4>>\n\n"
+            "Cinco. Ainda mais fundo. Meu subconsciente está aberto, receptivo, pronto. <<4>>\n\n"
+            "Quatro. Tão relaxada que parece que estou flutuando. Leve. Sem peso. <<4>>\n\n"
+            "Três. O nível mais profundo de descanso que eu já conheci. Mais profundo do que o sono. <<4>>\n\n"
             "Dois. Sem pensamento. Sem esforço. Apenas estar. Apenas ouvir. <<4>>\n\n"
-            "Um. <<3>> Você está no estado perfeito. <<3>>\n\n"
+            "Um. <<3>> Estou no estado perfeito. <<3>>\n\n"
             "Tudo o que eu disser daqui pra frente entra direto onde precisa. Direto no lugar profundo onde as mudanças acontecem. E fica."
         ),
     },
     {
         "name": "04_lugar_seguro",
-        "start_ms": 9 * 60 * 1000,  # 9:00
+        "start_ms": 9 * 60 * 1000 + 30 * 1000,  # 9:30
         "text": (
-            "Agora, na sua mente, imagine um lugar lindo. <<5>>\n\n"
-            "Esse lugar é seu. Só seu. <<3>>\n\n"
-            "Tem muita luz. Uma luz quente, dourada, que toca a sua pele. <<4>>\n\n"
-            "O ar é leve. Você respira fácil. <<3>>\n\n"
-            "Nesse lugar, seu corpo se sente forte. Centrada. Inteira. <<5>>\n\n"
-            "Seus pés tocam o chão, e você sente a firmeza. <<3>>\n\n"
-            "A cada respiração, esse lugar fica mais real. Mais nítido. Mais seu. <<5>>\n\n"
-            "Esse é o lugar onde o seu corpo sempre sabe voltar. Em uma respiração, você está aqui de novo."
+            "Agora, na minha mente, eu vou para um lugar lindo. <<5>>\n\n"
+            "Esse lugar é meu. Só meu. <<3>>\n\n"
+            "Vejo um jardim aberto, cercado de árvores antigas que sussurram com o vento. <<4>>\n\n"
+            "O céu é azul, limpo, com algumas nuvens leves passando devagar. <<4>>\n\n"
+            "Sinto o sol quente nos meus ombros. Uma luz dourada que toca minha pele e me aquece por dentro. <<5>>\n\n"
+            "O ar é puro. Cheira a flores, a terra molhada, a vida. <<4>>\n\n"
+            "Eu respiro fundo, e cada inspiração me preenche de paz. <<5>>\n\n"
+            "Caminho devagar pelo jardim. Sinto a grama macia debaixo dos meus pés. <<4>>\n\n"
+            "Cada passo me deixa mais leve. Mais firme. Mais centrada. <<5>>\n\n"
+            "Vejo um banco de pedra. Sento ali. <<3>>\n\n"
+            "Olho para minhas mãos e percebo que elas estão calmas. <<3>>\n\n"
+            "Olho para o meu peito e percebo que minha respiração está tranquila. <<4>>\n\n"
+            "Esse é o meu lugar. Aqui eu sou inteira. Aqui eu sou forte. Aqui eu sou eu mesma. <<5>>\n\n"
+            "Sinto uma sensação morna no peito. Essa é a minha paz. <<3>>\n\n"
+            "Sinto uma firmeza nas minhas pernas. Essa é a minha força. <<3>>\n\n"
+            "Sinto uma clareza na minha cabeça. Esse é o meu controle. <<4>>\n\n"
+            "Paz. Força. Controle. Tudo isso vive dentro de mim. <<5>>\n\n"
+            "A cada respiração, esse lugar fica mais real. Mais nítido. Mais meu. <<5>>\n\n"
+            "E eu sei que esse lugar mora dentro de mim. Posso voltar pra cá em uma respiração, em qualquer momento, em qualquer lugar."
         ),
     },
     {
         "name": "05_ancoragem",
-        "start_ms": 11 * 60 * 1000,  # 11:00
+        "start_ms": 13 * 60 * 1000 + 30 * 1000,  # 13:30
         "text": (
-            "Agora leve uma das mãos para o seu peito. <<3>>\n\n"
-            "Sinta sua mão ali. O calor. A presença. <<4>>\n\n"
-            "Respire devagar. <<3>> Repita comigo, em silêncio: <<3>>\n\n"
+            "Agora levo uma das minhas mãos para o meu peito. <<3>>\n\n"
+            "Sinto minha mão ali. O calor. A presença. <<4>>\n\n"
+            "Respiro devagar. <<3>> E digo, em silêncio: <<3>>\n\n"
             "Eu estou aqui. Eu estou segura. Eu sou forte. <<5>>\n\n"
             "De novo. Eu estou aqui. Eu estou segura. Eu sou forte. <<5>>\n\n"
-            "Esse gesto, sua mão no peito, junto com essa frase, traz uma onda de calma pelo seu corpo. <<4>>\n\n"
-            "Esse é o seu botão. Sua âncora. <<3>>\n\n"
-            "Toda vez que você colocar a mão no peito, e respirar, e dizer essas palavras, seu corpo entra automaticamente nesse estado de calma. De força. De presença."
+            "Esse gesto, minha mão no peito, junto com essa frase, traz uma onda de calma pelo meu corpo. <<4>>\n\n"
+            "Esse é o meu botão. Minha âncora. <<3>>\n\n"
+            "Toda vez que eu colocar a mão no peito, e respirar, e disser essas palavras, meu corpo entra automaticamente nesse estado de calma. De força. De presença."
         ),
     },
     {
         "name": "06_inversao_gatilho",
-        "start_ms": 12 * 60 * 1000 + 30 * 1000,  # 12:30
+        "start_ms": 15 * 60 * 1000,  # 15:00
         "text": (
-            "E agora, seu subconsciente está aprendendo uma coisa nova. <<4>>\n\n"
-            "Aquela sensação antiga, que às vezes chegava... aquele sinal que seu corpo conhece... a partir de hoje significa algo diferente. <<5>>\n\n"
-            "Toda vez que aquele sinal aparecer... seu corpo automaticamente responde de outra forma. <<4>>\n\n"
-            "Em vez de descer, você sobe. <<3>>\n\n"
-            "Em vez de apertar, você abre. <<3>>\n\n"
-            "Em vez de ficar pequena, você fica forte. <<5>>\n\n"
-            "O mesmo sinal que antes te puxava pra baixo... agora te leva direto pra sua força. <<5>>\n\n"
-            "Você não precisa lembrar de nada. Você não precisa pensar. <<3>>\n\n"
-            "Seu corpo já sabe o caminho novo. <<5>>\n\n"
-            "Cada vez que aquele sinal vier, ele dispara uma onda de calma, de centro, de presença em você. <<4>>\n\n"
-            "Como se alguém acendesse uma luz dentro de você. <<5>>\n\n"
-            "O sinal antigo virou seu professor. O que antes te derrubava, agora te fortalece."
+            "E agora, meu subconsciente está aprendendo uma coisa nova. <<4>>\n\n"
+            "Aquela sensação antiga, que às vezes chegava... aquele sinal que meu corpo conhece... a partir de hoje significa algo diferente. <<5>>\n\n"
+            "Toda vez que aquele sinal aparecer... meu corpo automaticamente responde de outra forma. <<4>>\n\n"
+            "Em vez de descer, eu subo. <<3>>\n\n"
+            "Em vez de apertar, eu abro. <<3>>\n\n"
+            "Em vez de ficar pequena, eu fico forte. <<5>>\n\n"
+            "O mesmo sinal que antes me puxava pra baixo... agora me leva direto pra minha força. <<5>>\n\n"
+            "Eu não preciso lembrar de nada. Eu não preciso pensar. <<3>>\n\n"
+            "Meu corpo já sabe o caminho novo. <<5>>\n\n"
+            "Cada vez que aquele sinal vier, ele dispara uma onda de calma, de centro, de presença em mim. <<4>>\n\n"
+            "Como se alguém acendesse uma luz dentro de mim. <<5>>\n\n"
+            "O sinal antigo virou meu professor. O que antes me derrubava, agora me fortalece."
         ),
     },
     {
         "name": "07_dichotic_inversao",
-        "start_ms": 15 * 60 * 1000,  # 15:00
+        "start_ms": 17 * 60 * 1000,  # 17:00
         "repeat": 4,
         "repeat_gap_ms": 3000,
-        # phrase pairs separated by --- ; convergence words are last word of each phrase
         "left_text": (
             "Quando aquele sinal vier, eu fico mais forte\n"
             "---\n"
@@ -156,40 +185,53 @@ SEGMENTS = [
     },
     {
         "name": "08_auto_cuidado",
-        "start_ms": 19 * 60 * 1000,  # 19:00
+        "start_ms": 21 * 60 * 1000,  # 21:00
         "text": (
-            "E agora seu corpo está aprendendo uma nova prioridade. <<4>>\n\n"
-            "Seu corpo gosta de se mover. <<3>> Seu corpo precisa de movimento. <<3>> Cada vez que você se move, seu corpo agradece. <<4>>\n\n"
-            "Aquelas atividades que te fazem bem... aquelas que você sabe que te trazem leveza... seu corpo agora pede por elas, naturalmente. <<5>>\n\n"
-            "Pode ser caminhar. Pode ser ioga. Pode ser alongar. Pode ser respirar ao ar livre. Pode ser qualquer coisa que seu corpo pedir. <<4>>\n\n"
-            "Cada vez que você cuida de você, você fica mais forte. <<3>> Cada vez que você se move, sua mente fica mais leve. <<3>> Cada vez que você respira ar puro, o sinal antigo perde força. <<4>>\n\n"
-            "Você não precisa de força de vontade. <<3>> Você simplesmente sente vontade. <<3>> E você atende, porque você se ama. <<5>>\n\n"
-            "Cuidar de você é o seu remédio. <<3>> É o seu antídoto. <<3>> É a sua proteção. <<5>>\n\n"
-            "A partir de hoje, todo dia, você se move. Todo dia, você respira fundo. Todo dia, você se prioriza. <<4>>\n\n"
+            "E agora meu corpo está aprendendo uma nova prioridade. <<4>>\n\n"
+            "Meu corpo gosta de se mover. <<3>> Meu corpo precisa de movimento. <<3>> Cada vez que eu me movo, meu corpo agradece. <<4>>\n\n"
+            "Aquelas atividades que me fazem bem... aquelas que eu sei que me trazem leveza... meu corpo agora pede por elas, naturalmente. <<5>>\n\n"
+            "Pode ser caminhar. Pode ser ioga. Pode ser alongar. Pode ser respirar ao ar livre. Pode ser qualquer coisa que meu corpo pedir. <<4>>\n\n"
+            "Cada vez que eu cuido de mim, eu fico mais forte. <<3>> Cada vez que eu me movo, minha mente fica mais leve. <<3>> Cada vez que eu respiro ar puro, o sinal antigo perde força. <<4>>\n\n"
+            "Eu não preciso de força de vontade. <<3>> Eu simplesmente sinto vontade. <<3>> E eu atendo, porque eu me amo. <<5>>\n\n"
+            "Cuidar de mim é o meu remédio. <<3>> É o meu antídoto. <<3>> É a minha proteção. <<5>>\n\n"
+            "A partir de hoje, todo dia, eu me movo. Todo dia, eu respiro fundo. Todo dia, eu me priorizo. <<4>>\n\n"
             "Não como sacrifício. Como prazer. Como amor próprio. <<5>>\n\n"
-            "Seu corpo agradece. Sua mente agradece. Sua vida agradece. Toda vez que você cuida de você."
+            "Meu corpo agradece. Minha mente agradece. Minha vida agradece. Toda vez que eu cuido de mim."
         ),
     },
     {
-        "name": "09_future_pacing",
-        "start_ms": 21 * 60 * 1000 + 30 * 1000,  # 21:30
-        "text": (
-            "Agora veja com sua mente o que vem pela frente. <<4>>\n\n"
-            "Você acorda amanhã com vontade de cuidar de você. <<3>> O movimento vem natural. A respiração vem natural. <<4>>\n\n"
-            "E quando aquele sinal antigo tentar começar... <<3>>\n\n"
-            "Você vê seu corpo respondendo diferente. <<3>>\n\n"
-            "Mais leve. Mais segura. Mais presente. <<4>>\n\n"
-            "Sua mão vai pro peito. Você respira. E em segundos, está de volta no centro. <<5>>\n\n"
-            "Você continua o seu dia, normal, tranquila, forte. <<3>>\n\n"
-            "Sem crise. Sem cascata. <<5>>\n\n"
-            "Você se move. Você respira ar puro. Você faz aquilo que seu corpo pede. <<4>>\n\n"
-            "Veja seus dias daqui pra frente. Você é a mãe presente. A mulher centrada. A profissional segura. <<4>>\n\n"
-            "Você é a força da sua casa."
-        ),
-    },
-    {
-        "name": "10_dichotic_identidade",
+        "name": "09_dia_ideal",
         "start_ms": 24 * 60 * 1000,  # 24:00
+        "text": (
+            "Agora, na minha mente, vejo um dia comum daqui pra frente. <<5>>\n\n"
+            "Acordo de manhã. Antes de qualquer coisa, sinto meu corpo descansado. <<3>> Meu peito está leve. <<3>> Minha respiração já é calma. <<5>>\n\n"
+            "Levanto sem pressa. <<3>> Bebo água. Sinto a luz da manhã no meu rosto. <<4>>\n\n"
+            "Faço algo que cuida de mim. Pode ser uma caminhada. Pode ser alguns minutos de alongamento. Pode ser apenas uma respiração profunda no ar fresco. <<5>>\n\n"
+            "Sinto meu corpo agradecendo. <<4>>\n\n"
+            "Quando o dia começa a se mover... quando as coisas começam a acontecer... eu permaneço inteira. <<5>>\n\n"
+            "Se algo me toca, eu sinto. E sigo. <<3>> Se algo me desafia, eu respiro. E sigo. <<3>> Se aquele sinal antigo tenta começar... minha mão vai pro peito... e eu volto pro centro em segundos. <<5>>\n\n"
+            "Vejo a mim mesma cuidando dos meus filhos com presença. <<4>> Vejo a mim mesma trabalhando com clareza. <<4>> Vejo a mim mesma rindo, abraçando, vivendo. <<5>>\n\n"
+            "No final do dia, eu deito sabendo que fiz o suficiente. Que cuidei de mim. Que cuidei dos meus. Que estive presente. <<5>>\n\n"
+            "Esse é o meu dia. <<3>> Esse é o meu padrão novo. <<3>> Essa sou eu, agora."
+        ),
+    },
+    {
+        "name": "10_familia",
+        "start_ms": 27 * 60 * 1000,  # 27:00
+        "text": (
+            "Eu sou amada. <<4>>\n\n"
+            "Tenho ao meu redor pessoas que me amam. Pessoas que me apoiam. Pessoas que torcem por mim. <<5>>\n\n"
+            "Minha família me ama. <<3>> Eles veem em mim o que eu nem sempre consigo ver. <<5>>\n\n"
+            "Eu não estou sozinha. Eu nunca estou sozinha. <<5>>\n\n"
+            "Quando eu preciso, eu posso pedir. <<3>> Quando eu peço, eles estão ali. <<3>> E quando eu não consigo pedir, eles também estão ali. <<5>>\n\n"
+            "Eu permito ser cuidada. <<3>> Eu permito ser amada. <<3>> Eu permito receber. <<5>>\n\n"
+            "Sou parte de algo maior do que eu mesma. Uma rede de amor que me sustenta, mesmo quando eu não percebo. <<5>>\n\n"
+            "E essa rede está sempre comigo. <<3>> No coração. <<3>> Na minha história. <<3>> No meu agora."
+        ),
+    },
+    {
+        "name": "11_dichotic_identidade",
+        "start_ms": 29 * 60 * 1000,  # 29:00
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -208,56 +250,53 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "11_compromisso_diario",
-        "start_ms": 26 * 60 * 1000 + 30 * 1000,  # 26:30
+        "name": "12_compromisso_diario",
+        "start_ms": 31 * 60 * 1000,  # 31:00
         "text": (
-            "E essa gravação... essa voz... esse momento... <<3>> Você ama ouvir. <<4>>\n\n"
-            "Cada noite, antes de dormir, você sente vontade de voltar aqui. <<3>> De ouvir de novo. De se sentir assim. <<4>>\n\n"
-            "Toda vez que você escuta, algo dentro de você fica mais forte. <<3>> Mais centrada. Mais inteira. <<4>>\n\n"
-            "Você espera por esse momento durante o dia. <<3>> É o seu presente. É o seu refúgio. É o seu remédio. <<5>>\n\n"
-            "A cada noite que você ouve, a transformação se aprofunda. <<3>> A cada noite, o caminho novo se solidifica. <<3>> A cada noite, você se sente mais você. <<5>>\n\n"
-            "Quando termina, você adormece com facilidade, com paz, com confiança. <<4>>\n\n"
-            "Amanhã, na hora certa, seu corpo vai te lembrar. <<3>> Você vai querer voltar. Como quem volta para um lugar querido. <<5>>\n\n"
-            "Esse é o seu hábito. <<3>> Seu prazer. <<3>> Seu compromisso de amor com você mesma."
+            "E essa gravação... essa minha voz... esse momento... <<3>> Eu amo ouvir. <<4>>\n\n"
+            "Cada noite, antes de dormir, sinto vontade de voltar aqui. <<3>> De ouvir de novo. De me sentir assim. <<4>>\n\n"
+            "Toda vez que eu escuto, algo dentro de mim fica mais forte. <<3>> Mais centrada. Mais inteira. <<4>>\n\n"
+            "Eu espero por esse momento durante o dia. <<3>> É o meu presente. É o meu refúgio. É o meu remédio. <<5>>\n\n"
+            "A cada noite que eu ouço, a transformação se aprofunda. <<3>> A cada noite, o caminho novo se solidifica. <<3>> A cada noite, eu me sinto mais eu. <<5>>\n\n"
+            "Quando termina, eu adormeço com facilidade, com paz, com confiança. <<4>>\n\n"
+            "Amanhã, na hora certa, meu corpo vai me lembrar. <<3>> Eu vou querer voltar. Como quem volta para um lugar querido. <<5>>\n\n"
+            "Esse é o meu hábito. <<3>> Meu prazer. <<3>> Meu compromisso de amor comigo mesma."
         ),
     },
     {
-        "name": "12_sono",
-        "start_ms": 28 * 60 * 1000,  # 28:00
+        "name": "13_sono",
+        "start_ms": 33 * 60 * 1000 + 30 * 1000,  # 33:30
         "text": (
-            "Agora seu corpo fica cada vez mais pesado. Sua mente vai mais fundo. <<4>>\n\n"
-            "Tudo o que eu disse esta noite está se assentando dentro de você. <<4>>\n\n"
-            "Enquanto você dorme, seu subconsciente vai ensaiar, organizar, reforçar. Cada palavra. Cada caminho novo. <<4>>\n\n"
-            "Você vai acordar amanhã mais leve. Mais clara. Mais forte. <<4>>\n\n"
-            "Apenas se entregue. <<3>> Em um sono profundo, restaurador, perfeito. <<5>>\n\n"
-            "Boa noite."
+            "Agora meu corpo fica cada vez mais pesado. Minha mente vai mais fundo. <<4>>\n\n"
+            "Tudo o que eu disse esta noite está se assentando dentro de mim. <<4>>\n\n"
+            "Enquanto eu durmo, meu subconsciente vai ensaiar, organizar, reforçar. Cada palavra. Cada caminho novo. <<4>>\n\n"
+            "Vou acordar amanhã mais leve. Mais clara. Mais forte. <<4>>\n\n"
+            "Apenas me entrego. <<3>> Em um sono profundo, restaurador, perfeito. <<5>>\n\n"
+            "Agora eu durmo."
         ),
+        # Final goodnight rendered separately with high stability for terminal intonation
+        "final_phrase": "Boa noite.",
     },
 ]
 
 PAUSE_RE = re.compile(r"<<(\d+(?:\.\d+)?)>>")
 
 
-def _eleven_render_chunk(client, text: str) -> AudioSegment:
+def _eleven_render_chunk(client, text: str, settings=VOICE_SETTINGS) -> AudioSegment:
     audio_iter = client.text_to_speech.convert(
         voice_id=VOICE_ID,
         model_id=MODEL_ID,
         text=text,
         output_format="mp3_44100_128",
-        voice_settings={
-            "stability": 0.55,
-            "similarity_boost": 0.85,
-            "style": 0.15,
-            "speed": 0.9,
-            "use_speaker_boost": True,
-        },
+        voice_settings=settings,
     )
     audio_bytes = b"".join(audio_iter)
     return AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3").set_channels(2).set_frame_rate(SAMPLE_RATE)
 
 
-def render_text_with_pauses(client, text: str, cache_path: Path) -> AudioSegment:
-    """Generate text with `<<N>>` pause markers handled. Returns concatenated AudioSegment."""
+def render_text_with_pauses(client, text: str, cache_path: Path,
+                            final_phrase: str | None = None) -> AudioSegment:
+    """Generate text with `<<N>>` pause markers handled. Optional final_phrase rendered with terminal-tone settings."""
     if cache_path.exists() and cache_path.stat().st_size > 1000:
         return AudioSegment.from_file(cache_path, format="mp3").set_channels(2).set_frame_rate(SAMPLE_RATE)
 
@@ -277,13 +316,17 @@ def render_text_with_pauses(client, text: str, cache_path: Path) -> AudioSegment
         if not paragraphs[p_idx].rstrip().endswith(">>"):
             rendered.append(AudioSegment.silent(duration=600, frame_rate=SAMPLE_RATE).set_channels(2))
 
+    if final_phrase:
+        # Long pause before goodnight, then high-stability render so it lands as a final exhale
+        rendered.append(AudioSegment.silent(duration=4000, frame_rate=SAMPLE_RATE).set_channels(2))
+        rendered.append(_eleven_render_chunk(client, final_phrase, settings=VOICE_SETTINGS_FINAL))
+
     full = sum(rendered, AudioSegment.silent(duration=0, frame_rate=SAMPLE_RATE).set_channels(2))
     full.export(cache_path, format="mp3", bitrate="128k")
     return full
 
 
 def render_dichotic_phrase_pair(client, l_text: str, r_text: str, cache_dir: Path, idx: int):
-    """Render one L/R phrase pair, end-aligned (pad START of shorter side)."""
     l_cache = cache_dir / f"L_{idx:02d}.mp3"
     r_cache = cache_dir / f"R_{idx:02d}.mp3"
 
@@ -308,7 +351,6 @@ def render_dichotic_phrase_pair(client, l_text: str, r_text: str, cache_dir: Pat
 
 
 def render_dichotic_segment(client, seg) -> tuple[AudioSegment, AudioSegment]:
-    """Split L/R on `---`, render each pair end-aligned, concatenate with small gaps."""
     l_phrases = [p.strip() for p in seg["left_text"].split("---") if p.strip()]
     r_phrases = [p.strip() for p in seg["right_text"].split("---") if p.strip()]
     assert len(l_phrases) == len(r_phrases), f"Phrase count mismatch in {seg['name']}"
@@ -365,7 +407,8 @@ def build_voice_track() -> AudioSegment:
         else:
             cache_path = WORK_DIR / f"{seg['name']}.mp3"
             print(f"[voice]   {seg['name']} (mono)")
-            voice = render_text_with_pauses(client, seg["text"], cache_path)
+            voice = render_text_with_pauses(client, seg["text"], cache_path,
+                                            final_phrase=seg.get("final_phrase"))
             voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
             lead_in = AudioSegment.silent(duration=1000, frame_rate=SAMPLE_RATE).set_channels(2)
             voice = lead_in + voice
@@ -378,11 +421,12 @@ def build_voice_track() -> AudioSegment:
 def generate_binaural_track() -> AudioSegment:
     print("[binaural] Synthesizing...")
     carrier = 200.0
+    # scaled to 36 minutes: alpha 0-3, theta 3-9, delta 9-30, deep delta 30-36
     stages = [
         (0, 3, 10.0),
-        (3, 8, 7.0),
-        (8, 25, 4.0),
-        (25, 30, 2.0),
+        (3, 9, 7.0),
+        (9, 30, 4.0),
+        (30, 36, 2.0),
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
@@ -390,7 +434,7 @@ def generate_binaural_track() -> AudioSegment:
     crossfade_s = 5.0
     for i, (s_min, e_min, beat) in enumerate(stages):
         s = int(s_min * 60 * SAMPLE_RATE)
-        e = int(e_min * 60 * SAMPLE_RATE)
+        e = min(int(e_min * 60 * SAMPLE_RATE), total_samples)
         beat_curve[s:e] = beat
         if i > 0:
             cf_samples = int(crossfade_s * SAMPLE_RATE)
@@ -478,7 +522,7 @@ def generate_ambient_track() -> AudioSegment:
 
 def main():
     print("=" * 70)
-    print("Bedtime Hypnosis Audio Generator - Manuela (PT-BR)")
+    print("Bedtime Hypnosis Audio Generator - Manuela v2 (PT-BR)")
     print("=" * 70)
 
     voice_track = build_voice_track()
@@ -495,7 +539,7 @@ def main():
 
     base = AudioSegment.silent(duration=TOTAL_DURATION_MS, frame_rate=SAMPLE_RATE).set_channels(2)
     mixed = base.overlay(ambient_track).overlay(binaural_track).overlay(voice_track)
-    mixed = mixed.fade_in(5000).fade_out(30000)
+    mixed = mixed.fade_in(5000).fade_out(45000)
 
     print(f"[export] Writing {OUTPUT_FILE}...")
     mixed.export(
@@ -513,8 +557,6 @@ def main():
     print(f"Output:        {OUTPUT_FILE}")
     print(f"Duration:      {len(mixed)/1000/60:.2f} min")
     print(f"Size:          {size_mb:.2f} MB")
-    print(f"Voice:         ElevenLabs voice_id={VOICE_ID} (Manuela cloned)")
-    print(f"Model:         {MODEL_ID}")
 
 
 if __name__ == "__main__":
