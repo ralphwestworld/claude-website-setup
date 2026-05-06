@@ -1,0 +1,366 @@
+{
+  "comment": "Buckeye Law Group :30 injury-law commercial. JSON2Video v2 movie spec. Six scenes, single VO track across all, optional music bed, end-card with phone number. BEFORE RENDERING: replace each PASTE_*_URL_HERE with a real URL (see render/README.md for exactly what each clip should show and where to source it). Do NOT remove the trailing _comment fields — JSON2Video ignores unknown fields and they make the file legible.",
+  "resolution": "full-hd",
+  "quality": "high",
+  "elements": [
+    {
+      "_comment": "VOICEOVER — single audio track that runs across the whole 30 seconds. Record yourself reading the script in render/README.md, upload to Drive (public link) or any host, paste the direct .mp3/.m4a URL here.",
+      "type": "audio",
+      "src": "PASTE_VOICEOVER_URL_HERE.mp3",
+      "start": 0,
+      "duration": 30,
+      "volume": 1.0
+    },
+    {
+      "_comment": "MUSIC BED — sparse cinematic-tension piano + strings, ducked under VO. Optional. Source from JSON2Video's built-in library, Artlist, or Epidemic Sound. Delete this block if you don't want music.",
+      "type": "audio",
+      "src": "PASTE_MUSIC_URL_HERE.mp3",
+      "start": 0,
+      "duration": 30,
+      "volume": 0.18,
+      "fade-out": 1
+    }
+  ],
+  "scenes": [
+    {
+      "_comment": "SCENE 1 (0:00–0:04) — ADVERSARY HOOK. Search term: 'insurance paperwork close up' or 'lowball settlement check kitchen table'. Tone: muted, paper-y, hand pushing aside a document.",
+      "duration": 4,
+      "elements": [
+        {
+          "type": "video",
+          "src": "PASTE_STOCK_URL_SCENE1.mp4",
+          "fit": "cover",
+          "duration": 4,
+          "muted": true
+        },
+        {
+          "type": "component",
+          "component": "basic/000",
+          "settings": {
+            "background-color": "#000000",
+            "card-color": "rgba(0,0,0,0.55)",
+            "headline": "The insurance company already decided what your accident is worth.",
+            "headline-font-size": "48px",
+            "headline-color": "#FFFFFF",
+            "subhead": "THEY'RE WRONG.",
+            "subhead-font-size": "120px",
+            "subhead-color": "#E10600",
+            "subhead-font-weight": "900"
+          },
+          "duration": 4
+        }
+      ]
+    },
+    {
+      "_comment": "SCENE 2 (0:04–0:07) — PAIN INVENTORY. Search term: 'stack of medical bills', 'ER discharge papers', 'pile of envelopes overdue'. Three text beats appear in sequence.",
+      "duration": 3,
+      "elements": [
+        {
+          "type": "video",
+          "src": "PASTE_STOCK_URL_SCENE2.mp4",
+          "fit": "cover",
+          "duration": 3,
+          "muted": true
+        },
+        {
+          "type": "text",
+          "text": "MEDICAL BILLS.",
+          "start": 0,
+          "duration": 3,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "100px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "background-color": "rgba(0,0,0,0.65)",
+            "padding": "40px"
+          }
+        },
+        {
+          "type": "text",
+          "text": "LOST WAGES.",
+          "start": 1,
+          "duration": 2,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "100px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+120"
+          }
+        },
+        {
+          "type": "text",
+          "text": "PAIN.",
+          "start": 2,
+          "duration": 1,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "100px",
+            "color": "#E10600",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+240"
+          }
+        }
+      ]
+    },
+    {
+      "_comment": "SCENE 3 (0:07–0:11) — TWIST. Search term: 'phone call insurance adjuster', 'hand signing settlement document', 'small check kitchen counter'. Push-in feel.",
+      "duration": 4,
+      "elements": [
+        {
+          "type": "video",
+          "src": "PASTE_STOCK_URL_SCENE3.mp4",
+          "fit": "cover",
+          "duration": 4,
+          "muted": true
+        },
+        {
+          "type": "text",
+          "text": "THE FIRST OFFER WON'T COVER ANY OF IT.",
+          "start": 0,
+          "duration": 3,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "82px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "background-color": "rgba(0,0,0,0.7)",
+            "padding": "60px",
+            "max-width": "85%"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Or what comes next.",
+          "start": 3,
+          "duration": 1,
+          "settings": {
+            "font-family": "Inter",
+            "font-style": "italic",
+            "font-size": "44px",
+            "color": "#E10600",
+            "vertical-align": "center",
+            "horizontal-align": "center"
+          }
+        }
+      ]
+    },
+    {
+      "_comment": "SCENE 4 (0:11–0:18) — CREDIBILITY. Search term: 'courthouse exterior dusk', 'attorney walking into office', 'Cleveland skyline'. The dollar number must dominate.",
+      "duration": 7,
+      "elements": [
+        {
+          "type": "video",
+          "src": "PASTE_STOCK_URL_SCENE4.mp4",
+          "fit": "cover",
+          "duration": 7,
+          "muted": true
+        },
+        {
+          "type": "text",
+          "text": "BUCKEYE LAW GROUP",
+          "start": 0,
+          "duration": 7,
+          "settings": {
+            "font-family": "Inter",
+            "font-weight": "700",
+            "font-size": "48px",
+            "color": "#FFFFFF",
+            "vertical-align": "top",
+            "horizontal-align": "center",
+            "y": "120"
+          }
+        },
+        {
+          "type": "text",
+          "text": "$1,000,000,000+",
+          "start": 1,
+          "duration": 6,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "180px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "background-color": "rgba(0,0,0,0.6)"
+          }
+        },
+        {
+          "type": "text",
+          "text": "RECOVERED FOR INJURED OHIOANS.",
+          "start": 2,
+          "duration": 5,
+          "settings": {
+            "font-family": "Inter",
+            "font-weight": "600",
+            "font-size": "44px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+180"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Past results do not guarantee a similar outcome. Each case is unique.",
+          "start": 0,
+          "duration": 7,
+          "settings": {
+            "font-family": "Inter",
+            "font-size": "20px",
+            "color": "#BBBBBB",
+            "vertical-align": "bottom",
+            "horizontal-align": "center",
+            "y": "-20"
+          }
+        }
+      ]
+    },
+    {
+      "_comment": "SCENE 5 (0:18–0:24) — THREE COMMANDS. Search term: 'attorney conference room', 'serious lawyer at desk', 'firm interior lobby'. Each command appears in sequence with the urgent word in red.",
+      "duration": 6,
+      "elements": [
+        {
+          "type": "video",
+          "src": "PASTE_STOCK_URL_SCENE5.mp4",
+          "fit": "cover",
+          "duration": 6,
+          "muted": true
+        },
+        {
+          "type": "text",
+          "text": "DON'T SIGN ANYTHING.",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "92px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "-160",
+            "background-color": "rgba(0,0,0,0.7)"
+          }
+        },
+        {
+          "type": "text",
+          "text": "DON'T SETTLE.",
+          "start": 2,
+          "duration": 4,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "92px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "0",
+            "background-color": "rgba(0,0,0,0.7)"
+          }
+        },
+        {
+          "type": "text",
+          "text": "CALL US FIRST.",
+          "start": 4,
+          "duration": 2,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "92px",
+            "color": "#E10600",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+160",
+            "background-color": "rgba(0,0,0,0.7)"
+          }
+        }
+      ]
+    },
+    {
+      "_comment": "SCENE 6 (0:24–0:30) — END CARD. Phone number is the largest on-screen element, period. Background should be solid black or a very subtle dark texture. Logo placeholder lives below the phone number — swap PASTE_LOGO_URL with the real Buckeye logo PNG.",
+      "duration": 6,
+      "elements": [
+        {
+          "type": "image",
+          "src": "https://media.json2video.com/assets/images/black.png",
+          "duration": 6,
+          "fit": "cover"
+        },
+        {
+          "type": "text",
+          "text": "1-800-411-PAIN",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "font-family": "Anton",
+            "font-size": "220px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "-120"
+          }
+        },
+        {
+          "type": "image",
+          "src": "PASTE_LOGO_URL.png",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "width": "320px",
+            "y": "+80"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Find out what your case is really worth.",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "font-family": "Inter",
+            "font-weight": "600",
+            "font-size": "40px",
+            "color": "#FFFFFF",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+220"
+          }
+        },
+        {
+          "type": "text",
+          "text": "No fee unless we win.",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "font-family": "Inter",
+            "font-weight": "400",
+            "font-size": "32px",
+            "color": "#E10600",
+            "vertical-align": "center",
+            "horizontal-align": "center",
+            "y": "+280"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Gregory E. Gudin, Esq., responsible attorney. 127 Public Square, Cleveland, OH. ADVERTISING MATERIAL.",
+          "start": 0,
+          "duration": 6,
+          "settings": {
+            "font-family": "Inter",
+            "font-size": "18px",
+            "color": "#888888",
+            "vertical-align": "bottom",
+            "horizontal-align": "center",
+            "y": "-30",
+            "max-width": "85%"
+          }
+        }
+      ]
+    }
+  ]
+}
