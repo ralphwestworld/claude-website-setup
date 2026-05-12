@@ -17,16 +17,25 @@ import numpy as np
 from pydub import AudioSegment
 
 OUTPUT_DIR = Path("/mnt/user-data/outputs")
-OUTPUT_FILE = OUTPUT_DIR / "morning_hypnosis_ralph_v1.mp3"
-WORK_DIR = Path("/tmp/hypnosis_morning_build")
+OUTPUT_FILE = OUTPUT_DIR / "morning_hypnosis_ralph_v2.mp3"
+WORK_DIR = Path("/tmp/hypnosis_morning_v2_build")
 WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 32 * 60 * 1000  # 32 min - leave room past the 30 min mark
+TOTAL_DURATION_MS = 36 * 60 * 1000  # 36 min - McKenna induction + tinnitus + body healing
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
+
+# Slower / more drowsy for the McKenna-style permissive induction
+VOICE_SETTINGS_INTRO = {
+    "stability": 0.78,
+    "similarity_boost": 0.85,
+    "style": 0.05,
+    "speed": 0.82,
+    "use_speaker_boost": True,
+}
 
 # Standard morning voice: a touch more energy than the evening Manuela settings
 VOICE_SETTINGS = {
@@ -48,51 +57,104 @@ VOICE_SETTINGS_WAKE = {
 
 SEGMENTS = [
     {
-        "name": "01_welcome_setup",
-        "start_ms": 0,
+        "name": "01_welcome_safety",
+        "start_ms": 0,  # 0:00
+        "use_intro_settings": True,
         "text": (
-            "Welcome. <<2>>\n\n"
-            "Get comfortable. Sit or lie down. Eyes can close. <<3>>\n\n"
-            "This is your time. The next thirty minutes belong to you. <<3>>\n\n"
-            "My voice is soothing and easing your mind. <<3>> You are learning easily. <<3>> You wake up clear and energized. <<3>> You take care of yourself naturally. <<3>> You execute with focus and ease. <<5>>\n\n"
-            "Each word I speak goes deep into the part of you that runs your day. The part that decides who you are."
+            "Welcome. <<3>>\n\n"
+            "Before we begin, a brief note. <<3>>\n\n"
+            "Do not listen to this with your eyes closed while driving, or operating machinery. <<3>> Only listen when you can safely relax. <<5>>\n\n"
+            "This is your morning programming. <<3>> The next thirty minutes will help you feel happier in yourself, focused on success, releasing your true potential, and creating more abundance in your life. <<3>> Today, and every day."
         ),
     },
     {
-        "name": "02_relaxation",
+        "name": "02_what_to_expect",
         "start_ms": 70 * 1000,  # 1:10
+        "use_intro_settings": True,
         "text": (
-            "Take a deep breath in through your nose. <<3>> And out through your mouth. <<4>>\n\n"
-            "Again. In. <<3>> Out. <<4>>\n\n"
-            "One more. In. <<3>> Out. Releasing the night. <<5>>\n\n"
-            "Now scan your body. <<3>> Feel your feet. Feet relax. <<3>>\n\n"
-            "Calves and shins. Loose. <<3>>\n\n"
-            "Knees and thighs. Heavy. <<3>>\n\n"
-            "Hips and lower back. Release. <<3>>\n\n"
-            "Stomach and chest. Soften. <<3>>\n\n"
-            "Shoulders. Drop them. <<3>> Arms heavy. Hands relaxed. <<3>>\n\n"
-            "Neck soft. Jaw soft. <<3>> Eyes still. Forehead smooth. <<4>>\n\n"
-            "Your body is awake but calm. <<3>> Alert but relaxed. <<3>> Ready to receive."
+            "If you're listening with headphones, and you should be... some words will come from your right side... <<2>> some from your left... <<2>> and some directly in the center. <<5>>\n\n"
+            "This experience is not sleep. <<3>> You'll still have awareness. You'll hear everything I say. You'll not become unconscious. <<4>>\n\n"
+            "But there will be changes. <<3>> Gentle changes. In how you feel today. And how the rest of your day will go. <<5>>\n\n"
+            "It's like daydreaming. <<3>> All you need to do is relax. <<3>> Let the sounds wash over you. <<4>>\n\n"
+            "You may not remember everything consciously. But you'll find yourself feeling clear, centered, and ready as we go on. <<5>>\n\n"
+            "And if you need to awaken at any time, you'll awaken fully alert. <<3>> At the end of this session, you'll awaken refreshed and invigorated, with a sense of calm and clarity."
         ),
     },
     {
-        "name": "03_deepener",
+        "name": "03_breathing",
         "start_ms": 4 * 60 * 1000,  # 4:00
+        "use_intro_settings": True,
         "text": (
-            "Now I count from five to one. Each number takes you deeper into focused calm. <<3>>\n\n"
-            "Not asleep. Receptive. <<5>>\n\n"
-            "Five. Going deeper. Mind clearing. <<4>>\n\n"
-            "Four. Even more focused. Still relaxed. <<4>>\n\n"
-            "Three. Halfway there. <<4>>\n\n"
-            "Two. Open. Receptive. <<4>>\n\n"
-            "One. <<3>> You are now in the perfect state to receive everything I say. Every word goes into the place where your day starts."
+            "So now... make yourself comfortable. <<4>>\n\n"
+            "Close your eyes just as soon as you wish... <<3>> and pay attention to your breathing. <<5>>\n\n"
+            "The gentle rise... <<3>> and the gentle fall. <<3>> Happening all by itself. <<5>>\n\n"
+            "And before you relax further... take some deeper breaths. <<4>>\n\n"
+            "Push all the way out. <<5>> And gently... breathe in. <<5>>\n\n"
+            "Push all the way out. <<5>> And gently... breathe in. <<5>>\n\n"
+            "One more. Push all the way out. <<5>> And gently... breathe in."
         ),
     },
     {
-        "name": "04_anchor",
-        "start_ms": 6 * 60 * 1000,  # 6:00
+        "name": "04_counting_back",
+        "start_ms": 4 * 60 * 1000 + 30 * 1000,  # 4:30
+        "use_intro_settings": True,
         "text": (
-            "Place one hand on your chest. <<3>> Feel the warmth. The presence. <<4>>\n\n"
+            "As you focus your attention on your breathing... now my voice will go with you as you relax. <<5>>\n\n"
+            "Close your eyes if you haven't already... and begin counting backwards in your mind, from one hundred. <<4>>\n\n"
+            "One hundred. <<3>> Ninety-nine. <<3>> Ninety-eight. <<3>> Ninety-seven. <<5>>\n\n"
+            "That's right. <<3>> Counting backwards... you'll find it gets easier as you begin to deeply relax. <<5>>\n\n"
+            "Keep counting in your mind. <<3>> The numbers may fade. <<3>> The numbers may slow. <<3>> It's all fine. <<5>>\n\n"
+            "And as you count... the little muscles at the sides of your eyes... <<3>> and the muscles at the sides of your mouth... <<3>> begin to relax."
+        ),
+    },
+    {
+        "name": "05_body_awareness",
+        "start_ms": 6 * 60 * 1000 + 30 * 1000,  # 6:30
+        "use_intro_settings": True,
+        "text": (
+            "As you become comfortably aware of your chest... <<3>> and your legs... <<3>> and the comfort... <<4>>\n\n"
+            "Of your shoulders relaxing. <<3>> Your arms. <<3>> Your hands. <<4>>\n\n"
+            "Sensing the weight of your hands. <<3>> They may feel slightly heavier. <<3>> They may feel slightly warmer. <<5>>\n\n"
+            "As you go deeper into this wonderfully relaxing morning daydream. <<3>> Where you can hear my voice in many different ways. Here. Now. <<5>>\n\n"
+            "You can feel energies and perceptions. Sounds. Temperature. Sensations. Reactions. <<3>> And the gentle lightness of letting go."
+        ),
+    },
+    {
+        "name": "06_inner_stillness",
+        "start_ms": 8 * 60 * 1000,  # 8:00
+        "use_intro_settings": True,
+        "text": (
+            "Just let your focus sink deeper... <<3>> and deeper... <<3>> towards your own peaceful inner stillness. <<5>>\n\n"
+            "And as you do... new patterns become richer and richer. More and more real. <<5>>\n\n"
+            "You can notice words. <<3>> You can notice noticing words. <<3>> You can notice noticing that your body can relax. And your mind can become very sensitive to my suggestions that help you most. <<5>>\n\n"
+            "Your breathing carries on all by itself. <<3>> And you can just watch your awareness slow down. <<5>>\n\n"
+            "My voice is soothing and easing your mind. <<3>> You are learning easily. <<3>> You wake up clear and energized. <<3>> You take care of yourself naturally. <<3>> You execute with focus and ease."
+        ),
+    },
+    {
+        "name": "07_tinnitus",
+        "start_ms": 10 * 60 * 1000,  # 10:00
+        "use_intro_settings": True,
+        "text": (
+            "And in this deep state of relaxation... your subconscious is listening. <<5>>\n\n"
+            "There is a sound you sometimes hear. <<3>> A ringing. <<2>> A buzzing. <<3>> Always there, in the background. <<5>>\n\n"
+            "From this point forward, your subconscious lets it go. <<4>>\n\n"
+            "It's like a fan in another room. <<3>> Always running. But you don't hear it. <<3>> Because your brain has filtered it out. <<5>>\n\n"
+            "That sound now becomes background. <<3>> Silenced. <<3>> Below your awareness. <<5>>\n\n"
+            "Your brain decides what you hear. <<3>> Your brain chooses what matters. <<3>> And that sound doesn't matter. <<5>>\n\n"
+            "Your subconscious turns the volume of that sound all the way down. <<3>> Lower. <<3>> Lower. <<3>> And lower still. <<5>>\n\n"
+            "Until silence. <<5>>\n\n"
+            "What you hear is what you choose to hear. <<3>> And you choose silence. You choose peace. <<5>>\n\n"
+            "That ringing fades into nothing. <<3>> It is not part of your experience anymore. <<5>>\n\n"
+            "And if it ever tries to return... your brain instantly tunes it out. <<3>> Like static on a radio you turned off. <<3>> Not there. <<5>>\n\n"
+            "Silence in your ears. <<3>> Peace in your mind. <<3>> Clear hearing. <<3>> Clear thinking. <<3>> Clear being."
+        ),
+    },
+    {
+        "name": "08_anchor",
+        "start_ms": 12 * 60 * 1000,  # 12:00
+        "text": (
+            "Now place one hand on your chest. <<3>> Feel the warmth. The presence. <<4>>\n\n"
             "Breathe in. <<3>> Breathe out. <<3>> And say, in your mind: <<3>>\n\n"
             "I am centered. I am clear. I am ready. <<5>>\n\n"
             "Again. I am centered. I am clear. I am ready. <<5>>\n\n"
@@ -101,8 +163,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "05_trigger_reversal",
-        "start_ms": 8 * 60 * 1000,  # 8:00
+        "name": "09_trigger_reversal",
+        "start_ms": 14 * 60 * 1000,  # 14:00
         "text": (
             "Your subconscious is learning something new. <<4>>\n\n"
             "That spike you sometimes feel. The rush. The high. The urge to push everything at once. <<3>> It now means something different. <<5>>\n\n"
@@ -115,8 +177,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "06_dichotic_execution",
-        "start_ms": 11 * 60 * 1000,  # 11:00
+        "name": "10_dichotic_execution",
+        "start_ms": 16 * 60 * 1000 + 30 * 1000,  # 16:30
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -143,8 +205,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "07_self_care",
-        "start_ms": 15 * 60 * 1000,  # 15:00
+        "name": "11_self_care",
+        "start_ms": 20 * 60 * 1000 + 30 * 1000,  # 20:30
         "text": (
             "Your body is your engine. <<3>> You take care of it every day. <<4>>\n\n"
             "You drink water first thing. <<3>> You move your body. <<3>> You eat clean food. <<3>> You sleep deep. <<5>>\n\n"
@@ -154,8 +216,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "08_day_visualization",
-        "start_ms": 17 * 60 * 1000 + 30 * 1000,  # 17:30
+        "name": "12_day_visualization",
+        "start_ms": 22 * 60 * 1000 + 30 * 1000,  # 22:30
         "text": (
             "Now see today in front of you. <<5>>\n\n"
             "Six AM. Eyes open. <<3>> You get out of bed. You drink water. You move. <<5>>\n\n"
@@ -169,8 +231,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "09_dichotic_identity",
-        "start_ms": 21 * 60 * 1000,  # 21:00
+        "name": "13_dichotic_identity",
+        "start_ms": 25 * 60 * 1000,  # 25:00
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -189,8 +251,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "10_daily_commitment",
-        "start_ms": 23 * 60 * 1000,  # 23:00
+        "name": "14_daily_commitment",
+        "start_ms": 27 * 60 * 1000,  # 27:00
         "text": (
             "Every morning you do this. <<3>> Every morning. <<3>> Thirty minutes that set the day. <<5>>\n\n"
             "You look forward to it. <<3>> You miss it when you skip it. <<5>>\n\n"
@@ -198,8 +260,31 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "11_centeredness",
-        "start_ms": 25 * 60 * 1000,  # 25:00
+        "name": "15_body_healing",
+        "start_ms": 28 * 60 * 1000 + 30 * 1000,  # 28:30
+        "use_intro_settings": True,
+        "text": (
+            "And now, with your body deeply relaxed... and your mind open... we turn attention inward. <<5>>\n\n"
+            "Your body is intelligent. <<3>> It knows how to heal itself. <<3>> Every cell. Every organ. Every system. <<3>> Knows exactly what to do. <<5>>\n\n"
+            "Right now, in this state, that healing intelligence is fully active. <<5>>\n\n"
+            "Let your awareness travel through your body. <<4>>\n\n"
+            "Starting at the top of your head. <<4>> Down through your face. <<3>> Your jaw. <<3>> Your neck. <<5>>\n\n"
+            "Down into your shoulders. <<3>> Your chest. <<3>> Your lungs. <<3>> Your heart. <<5>>\n\n"
+            "Wherever your attention pauses, healing energy gathers there. <<5>>\n\n"
+            "Down through your arms. <<3>> Your hands. <<3>> Your fingers. <<5>>\n\n"
+            "Through your stomach. <<3>> Your back. <<3>> Your hips. <<5>>\n\n"
+            "Down your legs. <<3>> Your knees. <<3>> Your calves. <<3>> Your feet. <<5>>\n\n"
+            "Your subconscious knows exactly where to send the energy. <<3>> What needs more attention. What needs more care. <<5>>\n\n"
+            "You don't have to think about it. Your body knows. <<5>>\n\n"
+            "Every system tunes itself. <<3>> Every cell does its work. <<3>> Repair happens. <<3>> Restoration happens. <<3>> Health is the default. <<5>>\n\n"
+            "Mind over body. <<3>> Body responds. <<5>>\n\n"
+            "And every morning you do this... <<3>> the healing deepens. <<3>> The body grows stronger. <<3>> More resilient. <<5>>\n\n"
+            "This is you, taking care of yourself, at the deepest level."
+        ),
+    },
+    {
+        "name": "16_centeredness",
+        "start_ms": 32 * 60 * 1000,  # 32:00
         "text": (
             "Before we finish, one more thing. <<4>>\n\n"
             "You are centered. <<3>> Even when the day pushes, you stay centered. <<5>>\n\n"
@@ -210,8 +295,8 @@ SEGMENTS = [
         ),
     },
     {
-        "name": "12_wake_up",
-        "start_ms": 28 * 60 * 1000 + 30 * 1000,  # 28:30
+        "name": "17_wake_up",
+        "start_ms": 34 * 60 * 1000,  # 34:00
         "text": (
             "Now I count from one to five. With each number, you become more alert. More energized. More ready. <<4>>\n\n"
             "One. Awareness returning. Body waking up. <<4>>\n\n"
@@ -229,15 +314,25 @@ PAUSE_RE = re.compile(r"<<(\d+(?:\.\d+)?)>>")
 
 
 def _eleven_render_chunk(client, text: str, settings=VOICE_SETTINGS) -> AudioSegment:
-    audio_iter = client.text_to_speech.convert(
-        voice_id=VOICE_ID,
-        model_id=MODEL_ID,
-        text=text,
-        output_format="mp3_44100_128",
-        voice_settings=settings,
-    )
-    audio_bytes = b"".join(audio_iter)
-    return AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3").set_channels(2).set_frame_rate(SAMPLE_RATE)
+    import time
+    last_err = None
+    for attempt in range(5):
+        try:
+            audio_iter = client.text_to_speech.convert(
+                voice_id=VOICE_ID,
+                model_id=MODEL_ID,
+                text=text,
+                output_format="mp3_44100_128",
+                voice_settings=settings,
+            )
+            audio_bytes = b"".join(audio_iter)
+            return AudioSegment.from_file(io.BytesIO(audio_bytes), format="mp3").set_channels(2).set_frame_rate(SAMPLE_RATE)
+        except Exception as e:
+            last_err = e
+            wait = 2 ** attempt  # 1, 2, 4, 8, 16
+            print(f"  [retry {attempt+1}/5 after {wait}s] {type(e).__name__}: {str(e)[:120]}")
+            time.sleep(wait)
+    raise last_err
 
 
 def render_text_with_pauses(client, text: str, cache_path: Path,
@@ -347,7 +442,12 @@ def build_voice_track() -> AudioSegment:
         else:
             cache_path = WORK_DIR / f"{seg['name']}.mp3"
             print(f"[voice]   {seg['name']} (mono)")
-            settings = VOICE_SETTINGS_WAKE if seg.get("use_wake_settings") else VOICE_SETTINGS
+            if seg.get("use_wake_settings"):
+                settings = VOICE_SETTINGS_WAKE
+            elif seg.get("use_intro_settings"):
+                settings = VOICE_SETTINGS_INTRO
+            else:
+                settings = VOICE_SETTINGS
             voice = render_text_with_pauses(client, seg["text"], cache_path, settings=settings)
             voice = voice.set_channels(2).set_frame_rate(SAMPLE_RATE)
             lead_in = AudioSegment.silent(duration=1000, frame_rate=SAMPLE_RATE).set_channels(2)
@@ -371,10 +471,11 @@ def generate_binaural_track() -> AudioSegment:
     carrier = 200.0
     stages = [
         (0, 3, 10.0),
-        (3, 13, 7.0),
-        (13, 21, 10.0),
-        (21, 25, 14.0),
-        (25, 32, 18.0),
+        (3, 16, 7.0),
+        (16, 25, 10.0),
+        (25, 28, 7.0),    # back to theta for body healing work
+        (28, 32, 10.0),
+        (32, 36, 18.0),   # beta for wake-up at the end
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
