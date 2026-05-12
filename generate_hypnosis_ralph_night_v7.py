@@ -23,7 +23,7 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 40 * 60 * 1000  # 40 min - room for everything
+TOTAL_DURATION_MS = 39 * 60 * 1000  # 39 min - de-duplicated intro
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
@@ -63,7 +63,7 @@ SEGMENTS = [
         "use_intro_settings": True,
         "text": (
             "Welcome. <<3>>\n\n"
-            "Make yourself comfortable. <<3>> Lying down. <<3>> No need to do anything yet. Just listen. <<5>>\n\n"
+            "Make yourself comfortable. <<3>> Lying down. Arms relaxed. Legs uncrossed. <<3>> No need to do anything yet. Just listen. <<5>>\n\n"
             "This experience is not yet sleep. <<3>> You'll still have awareness. You'll hear everything I say. You won't become unconscious. <<4>>\n\n"
             "But there will be changes. <<3>> Gentle changes. <<3>> In how you feel. How you think. How you act tomorrow. <<5>>\n\n"
             "It's like daydreaming. <<3>> All you need to do is relax. Let the sounds wash over you. <<5>>\n\n"
@@ -72,24 +72,14 @@ SEGMENTS = [
             "Push all the way out. <<5>> And gently... breathe in. <<5>>\n\n"
             "Push all the way out. <<5>> And gently... breathe in. <<5>>\n\n"
             "One more. Push all the way out. <<4>> And gently... breathe in. <<5>>\n\n"
-            "And now my voice will go with you as you relax."
-        ),
-    },
-    # === v6's 01_welcome (PRESERVED EXACTLY) ===
-    {
-        "name": "01_welcome",
-        "start_ms": 3 * 60 * 1000,  # 3:00 (after the new soothing intro)
-        "text": (
-            "Welcome. <<2>>\n\n"
-            "Find a comfortable position. Lying down. Arms relaxed. Legs uncrossed. <<3>>\n\n"
-            "You don't need to do anything except listen. Just let my voice guide you. <<2>>\n\n"
-            "Tonight, your subconscious takes over. Every word will be absorbed deep into the part of you that builds your future."
+            "And now my voice will go with you as you relax. <<4>>\n\n"
+            "Tonight, your subconscious takes over. <<3>> Every word will be absorbed deep into the part of you that builds your future."
         ),
     },
     # === v6's 02_progressive_relaxation (PRESERVED EXACTLY) ===
     {
         "name": "02_progressive_relaxation",
-        "start_ms": 4 * 60 * 1000,  # 4:00
+        "start_ms": 3 * 60 * 1000,  # 3:00
         "text": (
             "Take a slow, deep breath in through your nose. <<3>> And let it out slowly through your mouth. <<4>>\n\n"
             "Again. Breathe in deeply. <<4>> And out, releasing everything that no longer serves you. <<4>>\n\n"
@@ -107,7 +97,7 @@ SEGMENTS = [
     # === v6's 03_countdown_deepener (PRESERVED EXACTLY) ===
     {
         "name": "03_countdown_deepener",
-        "start_ms": 7 * 60 * 1000,  # 7:00
+        "start_ms": 6 * 60 * 1000,  # 6:00
         "text": (
             "In a moment I am going to count down from ten to one. With each number, you will find yourself drifting twice as deep into total relaxation. <<3>>\n\n"
             "Twice as deep. Twice as peaceful. Twice as ready to receive everything I share with you tonight. <<3>>\n\n"
@@ -126,7 +116,7 @@ SEGMENTS = [
     # === NEW: Tinnitus suppression (inserted at deepest point in trance) ===
     {
         "name": "03b_tinnitus",
-        "start_ms": 9 * 60 * 1000 + 30 * 1000,  # 9:30
+        "start_ms": 8 * 60 * 1000 + 30 * 1000,  # 8:30
         "use_intro_settings": True,
         "text": (
             "And in this deep state of relaxation... your subconscious is listening. <<5>>\n\n"
@@ -146,7 +136,7 @@ SEGMENTS = [
     # === v6's 04_staircase_visualization (PRESERVED EXACTLY) ===
     {
         "name": "04_staircase_visualization",
-        "start_ms": 13 * 60 * 1000,  # 13:00
+        "start_ms": 12 * 60 * 1000,  # 12:00
         "text": (
             "Imagine yourself at the top of a beautiful staircase. <<4>>\n\n"
             "It descends into your perfect place. The version of your life where you have already arrived. <<3>>\n\n"
@@ -167,7 +157,7 @@ SEGMENTS = [
     # === v6's 05_identity_dichotic (PRESERVED EXACTLY) ===
     {
         "name": "05_identity_dichotic",
-        "start_ms": 15 * 60 * 1000,  # 15:00
+        "start_ms": 14 * 60 * 1000,  # 14:00
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -194,7 +184,7 @@ SEGMENTS = [
     # === v6's 06_behavioral_dichotic (PRESERVED EXACTLY) ===
     {
         "name": "06_behavioral_dichotic",
-        "start_ms": 19 * 60 * 1000,  # 19:00
+        "start_ms": 18 * 60 * 1000,  # 18:00
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -217,7 +207,7 @@ SEGMENTS = [
     # === v6's 07_future_pacing (PRESERVED EXACTLY) ===
     {
         "name": "07_future_pacing",
-        "start_ms": 23 * 60 * 1000,  # 23:00
+        "start_ms": 22 * 60 * 1000,  # 22:00
         "text": (
             "See yourself one year from now. <<5>>\n\n"
             "You are in your home office. On the wall, a map. Pins mark every property you own. Fifty doors now. Fifty. <<5>>\n\n"
@@ -233,7 +223,7 @@ SEGMENTS = [
     # === v6's 07b_identity_dichotic_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07b_identity_dichotic_round2",
-        "start_ms": 25 * 60 * 1000,  # 25:00
+        "start_ms": 24 * 60 * 1000,  # 24:00
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -256,7 +246,7 @@ SEGMENTS = [
     # === v6's 07c_behavioral_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07c_behavioral_round2",
-        "start_ms": 28 * 60 * 1000,  # 28:00
+        "start_ms": 27 * 60 * 1000,  # 27:00
         "repeat": 2,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -277,7 +267,7 @@ SEGMENTS = [
     # === NEW: Body healing (mind over body, before sleep transition) ===
     {
         "name": "07d_body_healing",
-        "start_ms": 31 * 60 * 1000,  # 31:00
+        "start_ms": 30 * 60 * 1000,  # 30:00
         "use_intro_settings": True,
         "text": (
             "And now, with your body deeply relaxed... and your mind open... we turn attention inward. <<5>>\n\n"
@@ -301,7 +291,7 @@ SEGMENTS = [
     # === v6's 08_sleep_transition (PRESERVED EXACTLY + final phrase for terminal intonation) ===
     {
         "name": "08_sleep_transition",
-        "start_ms": 35 * 60 * 1000 + 30 * 1000,  # 35:30
+        "start_ms": 34 * 60 * 1000 + 30 * 1000,  # 34:30
         "text": (
             "And now, your body grows heavier, your mind drifts deeper. <<3>> Everything is settling. Into the place where identity is formed. <<4>>\n\n"
             "While you sleep, your subconscious will rehearse, organize, reinforce. Every system. Every belief. Every action. <<4>>\n\n"
@@ -477,11 +467,11 @@ def generate_binaural_track() -> AudioSegment:
     print("[binaural] Synthesizing sleep-bound progression...")
     carrier = 200.0
     stages = [
-        (0, 4, 10.0),
-        (4, 9, 7.0),
-        (9, 31, 4.0),
-        (31, 36, 3.0),
-        (36, 40, 2.0),
+        (0, 3, 10.0),
+        (3, 8, 7.0),
+        (8, 30, 4.0),
+        (30, 35, 3.0),
+        (35, 39, 2.0),
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
