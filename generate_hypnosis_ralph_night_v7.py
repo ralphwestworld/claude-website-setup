@@ -23,7 +23,7 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 39 * 60 * 1000  # 39 min - de-duplicated intro
+TOTAL_DURATION_MS = 40 * 60 * 1000  # 40 min - expanded body healing
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
@@ -264,34 +264,40 @@ SEGMENTS = [
             "I face every day with full presence and full power."
         ),
     },
-    # === NEW: Body healing (mind over body, before sleep transition) ===
+    # === NEW: Body healing (mind over body, autonomic balance, before sleep transition) ===
     {
         "name": "07d_body_healing",
         "start_ms": 30 * 60 * 1000,  # 30:00
         "use_intro_settings": True,
         "text": (
-            "And now, with your body deeply relaxed... and your mind open... we turn attention inward. <<5>>\n\n"
+            "And now, with your body deeply relaxed, and your mind open, we turn attention inward. <<5>>\n\n"
             "Your body is intelligent. <<3>> It knows how to heal itself. <<3>> Every cell. Every organ. Every system. <<3>> Knows exactly what to do. <<5>>\n\n"
             "Right now, in this state, that healing intelligence is fully active. <<5>>\n\n"
             "Let your awareness travel through your body. <<4>>\n\n"
             "Starting at the top of your head. <<4>> Down through your face. <<3>> Your jaw. <<3>> Your neck. <<5>>\n\n"
-            "Down into your shoulders. <<3>> Your chest. <<3>> Your lungs. <<3>> Your heart. <<5>>\n\n"
+            "Your thyroid, in your neck, balances itself. <<3>> Hormones flow correctly. <<3>> Every gland in your endocrine system finds its natural rhythm. <<5>>\n\n"
+            "Down into your shoulders. <<3>> Your chest. <<3>> Your lungs breathe deeper, easier. <<3>> Your heart slows to its natural rhythm. Steady. Calm. <<5>>\n\n"
             "Wherever your attention pauses, healing energy gathers there. <<5>>\n\n"
             "Down through your arms. <<3>> Your hands. <<3>> Your fingers. <<5>>\n\n"
-            "Through your stomach. <<3>> Your back. <<3>> Your hips. <<5>>\n\n"
+            "Through your stomach. <<3>> Your digestion calms. <<3>> Your appetite returns, steady and healthy. You eat what your body asks for. <<5>>\n\n"
+            "Your back. <<3>> Your hips. <<3>> Your lower belly. <<5>>\n\n"
             "Down your legs. <<3>> Your knees. <<3>> Your calves. <<3>> Your feet. <<5>>\n\n"
+            "Now your nervous system finds calm. <<3>> The fight side eases. The rest side rises. <<3>> You shift from alert to rest, automatically. <<5>>\n\n"
+            "Cortisol drops as the night deepens. <<3>> Melatonin rises naturally. <<3>> Your body knows the timing. <<5>>\n\n"
+            "Your sleep tonight is repairing. <<3>> Deep sleep, deeper. <<3>> REM sleep, clearer. <<3>> The architecture of your sleep, restored. <<5>>\n\n"
             "Your subconscious knows exactly where to send the energy. <<3>> What needs more attention. What needs more care. <<5>>\n\n"
             "You don't have to think about it. Your body knows. <<5>>\n\n"
             "Every system tunes itself. <<3>> Every cell does its work. <<3>> Repair happens. <<3>> Restoration happens. <<3>> Health is the default. <<5>>\n\n"
-            "Mind over body. <<3>> Body responds. <<5>>\n\n"
-            "Every night you do this... <<3>> the healing deepens. <<3>> The body grows stronger. <<3>> More resilient. <<5>>\n\n"
+            "And now, your body and your mind are one team. <<3>> Working together. <<3>> Your body knows what your mind decides. Your mind trusts what your body feels. <<5>>\n\n"
+            "No more split. <<3>> No more two-people feeling. <<3>> One person. One Ralph. Whole. <<5>>\n\n"
+            "Every night you do this, the healing deepens. <<3>> The body grows stronger. More resilient. <<3>> The mind grows clearer. More integrated. <<5>>\n\n"
             "This is you, taking care of yourself, at the deepest level."
         ),
     },
     # === v6's 08_sleep_transition (PRESERVED EXACTLY + final phrase for terminal intonation) ===
     {
         "name": "08_sleep_transition",
-        "start_ms": 34 * 60 * 1000 + 30 * 1000,  # 34:30
+        "start_ms": 36 * 60 * 1000 + 30 * 1000,  # 36:30 (after expanded body healing)
         "text": (
             "And now, your body grows heavier, your mind drifts deeper. <<3>> Everything is settling. Into the place where identity is formed. <<4>>\n\n"
             "While you sleep, your subconscious will rehearse, organize, reinforce. Every system. Every belief. Every action. <<4>>\n\n"
@@ -470,8 +476,8 @@ def generate_binaural_track() -> AudioSegment:
         (0, 3, 10.0),
         (3, 8, 7.0),
         (8, 30, 4.0),
-        (30, 35, 3.0),
-        (35, 39, 2.0),
+        (30, 36, 3.0),     # mid-delta during expanded body healing
+        (36, 40, 2.0),     # deep delta for sleep transition
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
