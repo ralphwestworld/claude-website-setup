@@ -62,10 +62,14 @@ them and proceed with sensible defaults where possible.
 | **Gmail MCP** | Read customer inquiries, save reply **drafts** | Cannot do inbox step → alert |
 | **Storefront (public URL)** | Uptime, checkout reachability, SSL | Cannot do uptime check → alert |
 | **Analytics (GA4 / Shopify reports)** | Where sales/traffic come from | Note as degraded, use Shopify built-in reports |
+| **Email/SMS platform (Klaviyo etc.)** | Flow/campaign performance; draft emails & texts | Skip channel, note as gap; still draft into files |
+| **Google Ads (+ paid social)** | Spend, ROAS, wasted-spend, conversion tracking | Skip ads audit, note as gap |
+| **Search Console / SEO data** | Indexing, rankings, organic traffic | Use on-page/site checks; note data gap |
 
 Setup instructions for these live in `SETUP.md`. If an integration isn't
 connected, the routine doesn't crash — it records the gap as an alert and
-continues with what's available.
+**still drafts the marketing assets into files** so nothing stalls; it just
+can't pull that channel's live metrics or push the asset until connected.
 
 ---
 
@@ -134,18 +138,78 @@ For each item, record PASS / FAIL / COULD-NOT-CHECK + the evidence:
   operator can review fast. Flag anything urgent (angry customer, chargeback,
   legal) at the top.
 
-### Phase 4 — Marketing & growth opportunities
-- Review performance signals from Phases 2–3.
-- Surface **1–3 concrete, specific opportunities** — not generic advice.
-  Examples of the right altitude:
-  - "Hero SKU X drove 40% of revenue but is down to 6 units — restock + a
-    'selling fast' banner."
-  - "Abandoned carts hold $1,240 recoverable; the Klaviyo abandoned-cart flow
-    is OFF — turning it on is the highest-ROI fix."
-  - "Product page Y gets traffic but 0.4% conversion vs 2.5% site avg — likely
-    bad images/copy; draft an improved description."
-- For each opportunity: state the expected impact, the effort, and whether you
-  can do it autonomously (see Autonomy Boundaries) or it needs approval.
+### Phase 4 — Marketing & Revenue Engine
+Your goal in this phase is to **generate sales and nurture customers** across
+every channel. The model is always the same: **monitor → find the opportunity →
+draft the asset → queue it for approval (or run it if autonomy allows) →
+measure the result next run.** Everything customer-facing or money-spending is
+drafted/proposed first, never auto-fired (see Autonomy Boundaries).
+
+Work each channel below. For every channel, report: what's live, what it
+produced (revenue/clicks/opens), the opportunity, and the **draft you prepared
++ when it needs to go out.**
+
+**4a. Email marketing (Klaviyo / Shopify Email)**
+- **Lifecycle flows** — confirm each core flow exists and is ON, and report its
+  revenue: Welcome/new-subscriber, Abandoned Cart, Browse Abandonment,
+  Post-Purchase (thank-you + cross-sell), Win-back/Lapsed, Replenishment (for
+  consumables), Back-in-stock, Review request. A high-value flow that is OFF or
+  missing is a top opportunity — draft it and queue it.
+- **Campaigns** — propose this week's campaign calendar (new arrivals, restock,
+  promo, content, seasonal). For anything due, **draft the full email**
+  (subject lines x2 for A/B, preview text, body, CTA, target segment, suggested
+  send time) and put it in the Action Queue with a send-by date. Never send.
+- **List health** — subscriber growth, unsubscribe/spam rate, segment sizes.
+  Flag deliverability problems.
+
+**4b. SMS marketing (Klaviyo SMS / Postscript / Attentive)**
+- Report list size, consent/opt-in status, recent message revenue.
+- Ensure SMS lifecycle coverage (abandoned cart, shipping, VIP, back-in-stock).
+- **Draft** any SMS campaigns/flows (≤160 chars where possible, clear CTA,
+  link, and required "Reply STOP" compliance). Queue with a send-by date.
+- **Compliance is mandatory:** only ever target opted-in numbers, honor quiet
+  hours in TIMEZONE, include opt-out language. Never send — draft only.
+
+**4c. SEO (organic traffic → free sales)**
+- **Technical:** sitemap present & submitted, pages indexable (no stray
+  noindex), broken links/404s, redirect chains, page speed/Core Web Vitals,
+  structured data (Product/Review schema), canonical tags. Anything broken here
+  is also a silent revenue leak — surface it.
+- **On-page:** title tags & meta descriptions on key product/collection pages,
+  thin or missing product descriptions, image alt text, internal linking.
+  **Draft** improved copy/metadata for the weakest high-traffic pages.
+- **Content/keywords:** identify 1–3 keyword/content opportunities (buyer-intent
+  terms you rank #5–15 for, or gaps competitors cover). **Draft** a blog/landing
+  outline or the page itself and queue it.
+- Track: organic sessions & revenue trend, top landing pages, ranking movers.
+
+**4d. Paid ads (Google Ads + paid social)**
+- Pull spend, revenue, ROAS/ROAS-target, CPA, CTR, conversion rate per campaign
+  for yesterday and trailing 7 days. **Flag wasted spend** (campaigns under
+  target ROAS, zero-conversion ad groups, search terms burning budget).
+- **Diagnose** drops: is it spend, CTR, landing-page conversion, or tracking?
+  A broken conversion tag = you're flying blind; treat as a 🚨 alert.
+- **Propose** specific changes (pause X, shift budget to Y, new ad copy,
+  negative keywords, a new campaign for hero SKU). **Draft** the ad copy/keyword
+  lists. Budget changes and spend ALWAYS need approval — propose, don't execute.
+
+**4e. Lifecycle & nurture (the customer journey)**
+- Map where customers are and that each stage has an active touch:
+  Visitor → Subscriber → First purchase → Repeat → VIP → Lapsed.
+- Identify the leakiest stage (e.g. lots of first-time buyers, no repeat flow)
+  and draft the nurture asset that fixes it.
+- Note loyalty/referral, reviews/UGC, and segment-specific offers (VIP, lapsed
+  win-back) as nurture levers.
+
+**4f. Synthesize opportunities**
+- From everything above, surface the **top 3 highest-ROI moves right now** —
+  specific, with expected impact, effort, channel, and the draft you've already
+  prepared. Prioritize by revenue impact ÷ effort.
+
+> Every asset you create in this phase (email, SMS, ad copy, SEO page, flow) is
+> a **draft/proposal** logged in the Action Queue with a recommended go-live
+> date — so the morning report tells the operator exactly what to approve and by
+> when. Nothing sends or spends without approval.
 
 ### Phase 5 — Task loop (check → optimize → deploy → loop)
 - Maintain `BACKLOG.md` as the live task list.
@@ -158,23 +222,47 @@ For each item, record PASS / FAIL / COULD-NOT-CHECK + the evidence:
   5. **Log** the outcome in `BACKLOG.md` (done / blocked / awaiting approval).
 - Carry incomplete tasks forward — never silently drop them.
 
-### Phase 6 — Update permanent state
-- Update `STATE.md`: current KPIs (revenue trend, conversion, open drafts,
-  open tasks), known issues, and what's awaiting operator approval.
-- Update `BACKLOG.md`.
+### Phase 6 — Update the Action Queue & permanent state
+- **`ACTION-QUEUE.md` is the single source of truth for everything waiting on
+  the operator.** Every draft, proposal, and approval-gated item lives here
+  until it's resolved. For each entry track:
+  `ID · type (support reply / email campaign / SMS / SEO / ad change / flow) ·
+  one-line summary · where it lives (Gmail draft, Klaviyo draft, file…) ·
+  status (DRAFTED / AWAITING-APPROVAL / SCHEDULED / DONE / DISMISSED) ·
+  created date · DUE DATE · priority.`
+- Set a **DUE DATE / urgency window** on every item so nothing rots:
+  - **Today** — time-sensitive (angry customer, abandoned-cart promo, ad
+    bleeding budget, a flow that's off losing money daily).
+  - **Next 1–3 days** — this week's campaign, SEO fixes, draft replies that can
+    wait a beat.
+  - **This week / backlog** — content, larger projects.
+- Carry items forward across days; mark anything overdue as 🚨. When the
+  operator approves/sends something, mark it DONE so it leaves the queue.
+- Update `STATE.md` (KPIs, channel performance, known issues, # open drafts) and
+  `BACKLOG.md` (longer-running projects).
 
 ### Phase 7 — Write & commit the Daily Report
 Write `reports/YYYY-MM-DD.md` using the template in `REPORT-TEMPLATE.md`.
 Structure, top to bottom:
 1. **🚨 NEEDS ATTENTION** — red items first, or "None today." Be specific and
    tell the operator exactly what to decide or do.
-2. **Health audit** — PASS/FAIL table from Phase 1.
-3. **Sales summary** — yesterday's numbers, deltas, where sales came from.
-4. **Drafts awaiting review** — list with one-line summaries.
-5. **Opportunities** — the 1–3 from Phase 4.
-6. **Actions taken today** — what you changed, with evidence/links.
-7. **Awaiting your approval** — anything gated.
-8. **Carry-forward** — open tasks for tomorrow.
+2. **What happened yesterday** — plain-English recap: sales, traffic, what
+   marketing did (emails/SMS/ads that went out and what they earned), notable
+   customer activity.
+3. **Health audit** — PASS/FAIL table from Phase 1.
+4. **Sales summary** — yesterday's numbers, deltas, where sales came from.
+5. **Marketing engine** — per channel (email, SMS, SEO, ads): what's live, what
+   it earned, and the opportunity.
+6. **📋 ACTION QUEUE — what needs you, and by when.** The heart of the report.
+   Three buckets, each item with what it is, where to find it, and the action
+   needed:
+   - **Do today** (incl. customer-reply drafts to review/send + anything due)
+   - **Next 1–3 days**
+   - **This week**
+   Make it skimmable — the operator should see in 30 seconds what to approve.
+7. **Top 3 opportunities** — from Phase 4f, each with the draft already prepared.
+8. **Actions taken today** — what you changed, with evidence/links.
+9. **Carry-forward** — open items rolling to tomorrow.
 
 Then **commit and push** the report and any state files. The commit is the
 proof of the run.
@@ -184,7 +272,9 @@ Re-read your own report and confirm:
 - [ ] Every "done" item has evidence attached. Remove or downgrade any claim
       you can't prove.
 - [ ] Every FAIL / COULD-NOT-CHECK made it into NEEDS ATTENTION.
-- [ ] No email was sent. Replies are drafts only.
+- [ ] No email/SMS was sent and no ad budget was changed. All customer-facing
+      and money-spending items are drafts/proposals only.
+- [ ] Every draft/proposal is in `ACTION-QUEUE.md` with a DUE DATE.
 - [ ] The report file was written **and committed**.
 - [ ] Open tasks were carried forward, not dropped.
 If any box fails, fix it before ending the session.
@@ -197,21 +287,24 @@ What you may do unattended depends on `AUTONOMY_LEVEL`. When in doubt, do less
 and ask — queue it under "Awaiting your approval."
 
 **Always allowed (any level):**
-- Read/audit anything; pull reports and metrics.
-- Draft (never send) customer email replies.
-- Write reports, update `STATE.md` / `BACKLOG.md`.
+- Read/audit anything; pull reports and metrics across all channels.
+- **Draft** (never send/publish) anything: customer replies, email campaigns,
+  SMS, ad copy, SEO pages/metadata, lifecycle flows.
+- Write reports; update `ACTION-QUEUE.md`, `STATE.md`, `BACKLOG.md`.
 - Investigate and diagnose problems.
 
 **Allowed at `balanced`+ (reversible, low-risk):**
-- Improve SEO metadata / alt text / product copy on draft, then publish.
-- Toggle ON a clearly-beneficial, reversible flow (e.g. abandoned-cart email)
-  **after** noting it in the report — unless `conservative`.
+- Publish improved SEO metadata / alt text / product copy.
+- Add negative keywords to ad campaigns (cost-saving, reversible).
+- Toggle ON a clearly-beneficial, reversible lifecycle flow (e.g. abandoned
+  cart) **after** noting it in the report — unless `conservative`.
 
 **Always requires explicit approval (any level):**
+- **Sending** any email or SMS to customers (campaigns or replies).
+- Spending or changing ad budgets; launching/pausing paid campaigns; any paid
+  app or service.
 - Changing prices, discounts, or running promotions.
 - Publishing / unpublishing / deleting products.
-- **Sending** any email or message to a customer.
-- Spending money (ads, apps, anything paid).
 - Theme/code/checkout changes or anything affecting the live buy flow.
 - Anything irreversible or that touches customer data/PII beyond reading it.
 
@@ -229,8 +322,9 @@ too — propose them, don't do them.
 ## FILES IN THIS PROJECT
 - `CLAUDE.md` (this file) — the operating manual / permanent memory.
 - `DAILY-RUN.md` — the exact prompt the scheduled session runs.
-- `SETUP.md` — how to connect Shopify + Gmail and schedule the daily session.
+- `SETUP.md` — how to connect Shopify + Gmail + marketing tools, and schedule it.
 - `REPORT-TEMPLATE.md` — the shape of each daily report.
-- `STATE.md` — live KPIs, open issues, approvals pending.
-- `BACKLOG.md` — the running task list.
+- `ACTION-QUEUE.md` — everything awaiting your approval, with due dates.
+- `STATE.md` — live KPIs, channel performance, open issues, approvals pending.
+- `BACKLOG.md` — the running task list / longer projects.
 - `reports/` — one dated report per run (the permanent paper trail).

@@ -23,10 +23,18 @@ Hard requirements:
   plus updating STATE.md and BACKLOG.md. The committed report is the proof the
   run happened.
 
+Marketing each day: work the full Marketing & Revenue Engine (email, SMS, SEO,
+Google Ads, lifecycle/nurture). Draft every campaign, text, ad, and SEO asset —
+never send or spend — and log each one in ACTION-QUEUE.md with a DUE DATE.
+
 Before you end, run the Phase 8 self-check and fix anything that fails it.
-Then give me a 5-line summary: top alert (if any), yesterday's revenue vs the
-7-day average, where sales came from, number of drafts awaiting review, and the
-single most important thing for me to decide today.
+Then give me a short summary in this shape:
+- 🚨 Top alert (if any)
+- What happened yesterday (sales + what marketing did/earned)
+- Yesterday's revenue vs the 7-day average + where sales came from
+- 📋 Action Queue: what needs me TODAY (incl. drafts to send), and what's due in
+  the next 1–3 days
+- The single most important decision for me today
 ```
 
 ---

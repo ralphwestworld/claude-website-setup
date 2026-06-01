@@ -8,6 +8,12 @@ _Run started: {{timestamp}} · Run finished: {{timestamp}}_
 
 -
 
+## 📰 What happened yesterday
+<!-- Plain-English recap: sales, traffic, what marketing went out and earned,
+     notable customer activity. 3–6 lines. -->
+
+-
+
 ## ✅ Health audit
 | Check | Status | Evidence |
 |---|---|---|
@@ -17,6 +23,7 @@ _Run started: {{timestamp}} · Run finished: {{timestamp}}_
 | SSL / domain | PASS/FAIL | expires in N days |
 | Shopify Admin API | PASS/FAIL | read succeeded / error |
 | Analytics & pixel present | PASS/FAIL | |
+| Ad conversion tracking | PASS/FAIL | firing? |
 | Integrations (Klaviyo/ShipStation/…) | PASS/FAIL | |
 | Inventory sanity | PASS/FAIL | hero SKUs in stock? |
 | Recent errors / failed orders | PASS/FAIL | |
@@ -29,14 +36,36 @@ _Run started: {{timestamp}} · Run finished: {{timestamp}}_
 - Channels that dried up / anomalies: …
 - Bestsellers: … · Out-of-stock bestsellers: … · Abandoned carts: N ($X recoverable)
 
-## ✉️ Drafts awaiting your review
-<!-- DRAFTS ONLY — nothing was sent. -->
-| Customer | Subject | Category | Proposed reply (1 line) |
+## 📣 Marketing engine
+| Channel | Live now | Yesterday's result | Opportunity |
 |---|---|---|---|
-| | | | |
+| Email (flows + campaigns) | | revenue / opens | |
+| SMS | | revenue / clicks | |
+| SEO / organic | | sessions / rankings | |
+| Google Ads / paid | | spend / ROAS | |
+| Lifecycle / nurture | leakiest stage? | | |
 
-## 📈 Opportunities (1–3, specific)
-1. **{title}** — impact / effort / autonomous-or-needs-approval
+## 📋 ACTION QUEUE — what needs you, and by when
+<!-- The heart of the report. Everything awaiting approval, bucketed by urgency.
+     DRAFTS/PROPOSALS ONLY — nothing was sent, published, or spent. -->
+
+**🔴 Do today**
+| What | Type | Where it lives | Action needed |
+|---|---|---|---|
+| | support-reply / email / sms / seo / ad | Gmail draft / Klaviyo / file | approve & send / publish / etc. |
+
+**🟡 Next 1–3 days**
+| What | Type | Where it lives | Action needed | Due |
+|---|---|---|---|---|
+| | | | | |
+
+**🟢 This week**
+| What | Type | Where it lives | Action needed | Due |
+|---|---|---|---|---|
+| | | | | |
+
+## 📈 Top 3 opportunities (with drafts prepared)
+1. **{title}** — impact / effort / channel — draft at: …
 2.
 3.
 
@@ -44,12 +73,10 @@ _Run started: {{timestamp}} · Run finished: {{timestamp}}_
 <!-- Each line needs evidence/link. Only things actually done. -->
 -
 
-## ⏳ Awaiting your approval
--
-
-## ➡️ Carry-forward (open tasks for tomorrow)
+## ➡️ Carry-forward (rolling to tomorrow)
 -
 
 ---
 _Phase 8 self-check: every "done" has evidence ✔ · all FAILs surfaced ✔ · no
-emails sent ✔ · report committed ✔ · open tasks carried forward ✔_
+email/SMS sent & no ad spend changed ✔ · every draft in ACTION-QUEUE.md with a
+due date ✔ · report committed ✔ · open items carried forward ✔_

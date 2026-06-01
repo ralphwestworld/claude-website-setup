@@ -14,6 +14,7 @@ CLAUDE.md
 DAILY-RUN.md
 SETUP.md
 REPORT-TEMPLATE.md
+ACTION-QUEUE.md
 STATE.md
 BACKLOG.md
 reports/
@@ -47,6 +48,26 @@ Add a Gmail MCP / Google Workspace integration to the environment and authorize
 the support inbox account. Required capability: read messages + **create
 drafts**. You do **not** need (and should not grant) send permission — keeping
 send off is a hard backstop behind the "drafts only" rule.
+
+## 3b. Connect marketing tools (for the Revenue Engine)
+
+The marketing phase works best with live data. Connect what you have; each is
+optional — a missing one is noted as a gap and the routine still drafts assets.
+
+- **Email/SMS (Klaviyo recommended, or Shopify Email / Postscript / Attentive):**
+  add the platform's MCP or store an API key as an environment secret so Claude
+  can read flow/campaign performance and create **drafts**. Do **not** grant
+  send permission — drafts/approval only is the backstop behind "never send."
+- **Google Ads (+ Meta if you run paid social):** connect read access to spend,
+  ROAS, and conversion metrics (Google Ads API / a reporting MCP, or export).
+  Keep budget/spend changes manual — the routine only *proposes* ad changes.
+- **SEO data (Google Search Console + GA4):** connect read access for indexing,
+  rankings, and organic traffic. Without it, Claude falls back to on-page/site
+  checks and notes the data gap.
+
+Compliance note for SMS: only opted-in numbers, honor quiet hours in your
+TIMEZONE, and include opt-out language. The routine drafts with this built in,
+but you are the one who reviews and sends.
 
 ## 4. Set environment network access
 

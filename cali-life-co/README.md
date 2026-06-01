@@ -1,10 +1,12 @@
 # Cali Life Co. — Autonomous Store Operations
 
-A drop-in system that turns a Claude Code session into a daily operations
-manager for a Shopify store. It runs a fixed morning routine, audits the store,
-drafts customer replies (never sends them), finds growth opportunities, and
-leaves you a dated report — so problems surface the same morning instead of a
-week later.
+A drop-in system that turns a Claude Code session into a daily operations +
+marketing manager for a Shopify store. It runs a fixed morning routine, audits
+the store, runs a multi-channel marketing engine (email, SMS, SEO, Google Ads,
+lifecycle nurture) to drive sales, drafts customer replies and campaigns (never
+sends or spends), and leaves you a dated report with a clear Action Queue — so
+problems surface the same morning instead of a week later, and you always know
+what to approve and by when.
 
 ## How it solves the two big problems
 - **"It says it'll do things but doesn't."** Every step must be backed by real
@@ -18,12 +20,13 @@ week later.
 ## Files
 | File | Purpose |
 |---|---|
-| `CLAUDE.md` | Permanent memory + the full daily routine (auto-loads every session) |
+| `CLAUDE.md` | Permanent memory + the full daily routine incl. marketing engine (auto-loads every session) |
 | `DAILY-RUN.md` | The short prompt your scheduled morning session runs |
-| `SETUP.md` | Connect Shopify + Gmail, set network access, schedule the run |
+| `SETUP.md` | Connect Shopify + Gmail + marketing tools, set network access, schedule the run |
 | `REPORT-TEMPLATE.md` | Shape of each daily report |
-| `STATE.md` | Live KPIs, open issues, pending approvals |
-| `BACKLOG.md` | Running task list |
+| `ACTION-QUEUE.md` | Everything awaiting your approval, with due dates |
+| `STATE.md` | Live KPIs, channel performance, pending approvals |
+| `BACKLOG.md` | Running task list / longer projects |
 | `reports/` | One dated report per run — the permanent paper trail |
 
 ## Quick start
