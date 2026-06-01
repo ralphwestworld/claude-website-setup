@@ -6,9 +6,10 @@
 # stunning animated websites with Claude Code.
 #
 # What this installs:
-#   1. Framer Motion  — animation library
-#   2. UI/UX Pro Max  — Claude Code skill for world-class UI
-#   3. Magic MCP      — 21st.dev component library for Claude
+#   1. Framer Motion      — animation library
+#   2. UI/UX Pro Max      — Claude Code skill for world-class UI
+#   3. Prompt Engineering — Claude Code skill for writing great prompts
+#   4. Magic MCP          — 21st.dev component library for Claude
 # ============================================================
 
 set -e
@@ -27,7 +28,7 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 # ── Step 1: Framer Motion ──────────────────────────────────
-echo -e "${YELLOW}[1/3] Installing Framer Motion...${NC}"
+echo -e "${YELLOW}[1/4] Installing Framer Motion...${NC}"
 
 if [ -f "package.json" ]; then
   # Detect package manager
@@ -50,7 +51,7 @@ fi
 echo ""
 
 # ── Step 2: UI/UX Pro Max Skill ───────────────────────────
-echo -e "${YELLOW}[2/3] Installing UI/UX Pro Max skill...${NC}"
+echo -e "${YELLOW}[2/4] Installing UI/UX Pro Max skill...${NC}"
 
 SKILLS_DIR="$HOME/.claude/skills"
 SKILL_NAME="ui-ux-pro-max"
@@ -73,8 +74,34 @@ fi
 echo -e "${GREEN}✓ UI/UX Pro Max skill installed at ~/.claude/skills/${NC}"
 echo ""
 
-# ── Step 3: 21st.dev Magic MCP ────────────────────────────
-echo -e "${YELLOW}[3/3] Installing 21st.dev Magic MCP...${NC}"
+# ── Step 3: Prompt Engineering Skill ──────────────────────
+echo -e "${YELLOW}[3/4] Installing Prompt Engineering skill...${NC}"
+
+PE_SKILL_NAME="prompt-engineering"
+PE_SKILL_DIR="$SKILLS_DIR/$PE_SKILL_NAME"
+PE_RAW_URL="https://raw.githubusercontent.com/ralphwestworld/claude-website-setup/main/skills/$PE_SKILL_NAME/SKILL.md"
+
+# Resolve the directory this script lives in (empty when run via curl | bash).
+PE_SCRIPT_DIR=""
+if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
+  PE_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
+mkdir -p "$PE_SKILL_DIR"
+
+if [ -n "$PE_SCRIPT_DIR" ] && [ -f "$PE_SCRIPT_DIR/skills/$PE_SKILL_NAME/SKILL.md" ]; then
+  # Running from a cloned repo — copy the local copy.
+  cp "$PE_SCRIPT_DIR/skills/$PE_SKILL_NAME/SKILL.md" "$PE_SKILL_DIR/SKILL.md"
+else
+  # Running via curl | bash — fetch the skill from GitHub.
+  curl -fsSL "$PE_RAW_URL" -o "$PE_SKILL_DIR/SKILL.md"
+fi
+
+echo -e "${GREEN}✓ Prompt Engineering skill installed at ~/.claude/skills/${NC}"
+echo ""
+
+# ── Step 4: 21st.dev Magic MCP ────────────────────────────
+echo -e "${YELLOW}[4/4] Installing 21st.dev Magic MCP...${NC}"
 
 # Check for API key argument
 MAGIC_API_KEY="${MAGIC_API_KEY:-$1}"
