@@ -21,7 +21,11 @@ Execute an application after the human-in-loop gate approves. Two paths; always 
 ## Compliance boundary (do not cross)
 - **No automated CAPTCHA solving, no bot-detection evasion, no stealth fingerprint spoofing to defeat anti-bot systems.** These are out of scope by project policy and ToS.
 - Account creation / email verification happen on the USER's own accounts, with the user completing verification — never silently/automatedly bypassed.
-- Default to **review-mode**: human approves each submission. Full-auto only for Path A on high-confidence matches if the user explicitly opts in.
+
+## Default apply behavior (project decision)
+- **Path A (official ATS API) + high-confidence match (LLM score ≥ threshold): auto-submit** without per-app approval. Log everything.
+- **Everything else → review-mode**: Path B (browser agent), low/medium-confidence matches, and any job needing login/verification all queue for human approval before submit.
+- The confidence threshold and the auto-submit toggle are user-configurable per profile.
 
 ## Audit (every attempt)
 Log `{job_id, path, fields_submitted (redacted), files, result, screenshots, timestamp}` for transparency and dispute resolution.
