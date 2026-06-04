@@ -1,0 +1,61 @@
+I'm continuing an existing project. Please pick up exactly where we left off.
+
+REPO: ralphwestworld/claude-website-setup  (GitHub)
+BRANCH: claude/magical-feynman-zROus  — check this out first.
+
+FIRST STEP: Read these committed files before doing anything; they are the source of truth:
+- docs/handoff.md   (full status + next steps — start here)
+- docs/decisions.md (locked architecture decisions)
+- docs/job-app-research.md, docs/competitor-matrix.md, docs/cloudflare-architecture.md,
+  docs/skills-selection.md, docs/external-skills.md
+- .claude/skills/   (6 project skills already authored)
+
+WHAT WE'RE BUILDING:
+An AI job-search & auto-apply web app (like JobCopilot / Simplify / LazyApply): resume in ->
+discover jobs -> match/score -> tailor resume + cover letter + screening answers -> apply on the
+user's behalf -> track. Hosted entirely on Cloudflare.
+
+LOCKED DECISIONS (do not relitigate without flagging):
+1. Hosting: Cloudflare, end-to-end.
+2. Stack: TypeScript-native -- Hono on Workers (NOT Python/FastAPI).
+3. Job sources: official ATS public APIs (Greenhouse/Lever/Ashby) first, then Indeed +
+   career-page crawl for the long tail.
+4. Apply default: auto-submit high-confidence official-ATS-API matches; review-mode for
+   everything else.
+5. Compliance: NO CAPTCHA / human-verification bypass, no bot-detection evasion. Login,
+   account creation, and email verification go through a human handoff on the user's own
+   accounts.
+6. Truthfulness: tailoring emphasizes the candidate's real data; never fabricate qualifications.
+
+CLOUDFLARE STACK (locked): Hono on Workers - Pages/Assets (UI) - Cron Triggers -> Workflows
+(scan engine) - Queues - D1 (data) - KV (sessions) - R2 (files/PDFs/screenshots) - Workers AI
+(embeddings + LLM) - Vectorize (matching) - Browser Rendering (Playwright + Stagehand, for the
+browser-agent path) - optionally Claude API via fetch().
+
+PIPELINE & PROJECT SKILLS (in .claude/skills/):
+Profile->Discover->Match/Rank->Tailor->Apply->Track, owned by: resume-intelligence, job-discovery,
+application-tailoring, apply-runner, ats-research, competitor-teardown.
+
+SKILLS NOTE: Project skills live in the repo (.claude/skills/) and load in every session
+everywhere. My ~100 locally-installed skills (in ~/.claude/skills/) are available now because
+this is a LOCAL session. To make any local skill persist for cloud sessions too, copy it into
+<repo>/.claude/skills/, commit, and push. Relevant external skills to vendor are listed in
+docs/external-skills.md (Cloudflare x4, OpenAI playwright, Anthropic pdf + webapp-testing,
+Trail of Bits security, Stripe, shadcn/ui).
+
+CURRENT STATUS: Foundation complete (research, competitor base, architecture, decisions, 6
+project skills). No application code yet. init (CLAUDE.md) and session-start-hook not yet run.
+
+NEXT STEP: Decide the MVP feature scope, then scaffold. Recommended v1 (all Path A, clean +
+auto-submittable):
+  1) Resume upload -> structured profile
+  2) Discovery from Greenhouse/Lever/Ashby for target companies
+  3) Match + score (embeddings + LLM rubric, with reasons)
+  4) Tailor (resume + cover letter + screening answers)
+  5) Review dashboard + auto-submit toggle for high-confidence
+  6) ATS-native submit + tracker with audit log
+Fast-follow: browser-agent path (Workday/Taleo), scam filtering, email follow-up, interview
+prep, browser extension, recruiter contacts, multi-profile, Stripe billing.
+
+Start by reading docs/handoff.md, confirm the plan back to me, then let's resume with the MVP
+scope decision.
