@@ -23,7 +23,7 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 40 * 60 * 1000  # 40 min - expanded body healing
+TOTAL_DURATION_MS = 45 * 60 * 1000  # 45 min - added abundance/mansion section
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
@@ -220,10 +220,33 @@ SEGMENTS = [
             "This future is closer than you think. The path you are on right now leads directly here. Inevitably."
         ),
     },
+    # === NEW: Abundance / Lakefront Mansion (wealth lifestyle visualization) ===
+    {
+        "name": "07a_abundance_mansion",
+        "start_ms": 24 * 60 * 1000,  # 24:00
+        "text": (
+            "And now, see another part of your future. The wealth your work creates. <<5>>\n\n"
+            "You are rich. You are successful. <<3>> The numbers in your accounts grow every month. <<3>> Money flows in faster than it flows out. <<5>>\n\n"
+            "This wealth provides for your entire family. <<3>> Not minimums. <<3>> The full life. <<3>> The life they deserve. The life you build for them. <<5>>\n\n"
+            "Anything they want, you buy. <<3>> Anything they need, you provide. <<5>>\n\n"
+            "You travel anywhere, anytime, as much as you wish. <<3>> No questions. No constraints. No stress about money. <<5>>\n\n"
+            "Money is no longer a problem. <<3>> Money is a tool. <<3>> And you wield it well. <<5>>\n\n"
+            "Now see your home. <<5>>\n\n"
+            "You drive up to your house on the Erie lakefront. <<3>> The road curves toward water. <<3>> The lake stretches out before you. Blue. Vast. Calm. <<5>>\n\n"
+            "The house is yours. <<3>> Modern. Beautiful. Built exactly the way you wanted it. <<3>> Clean lines. Big windows. Light pouring in. <<5>>\n\n"
+            "You pull into the garage. <<3>> Six cars. Yours. <<3>> Each one chosen by you. <<3>> The space is wide. Clean. Organized. <<5>>\n\n"
+            "You walk through the front door. <<3>> The space is open. Warm. Quiet. <<3>> Yours. <<5>>\n\n"
+            "Your family is here. <<3>> Safe. Comfortable. Happy. <<3>> The home you built makes their lives easier. Better. Fuller. <<5>>\n\n"
+            "This is your reality now. <<3>> Not someday. <<3>> This is the future already in motion. <<3>> The future you are walking toward, every day, every decision, every action. <<5>>\n\n"
+            "You are the man who built this. <<3>> The man whose work created it. <<3>> The man whose discipline brought him here. <<5>>\n\n"
+            "You are rich. <<3>> You are successful. <<3>> You provide. <<3>> You give. <<3>> You build. <<5>>\n\n"
+            "And it gets better every year. <<3>> Bigger. Fuller. Richer. <<3>> The mansion. The family. The freedom. <<3>> All real. All yours."
+        ),
+    },
     # === v6's 07b_identity_dichotic_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07b_identity_dichotic_round2",
-        "start_ms": 24 * 60 * 1000,  # 24:00
+        "start_ms": 29 * 60 * 1000,  # 29:00
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -246,7 +269,7 @@ SEGMENTS = [
     # === v6's 07c_behavioral_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07c_behavioral_round2",
-        "start_ms": 27 * 60 * 1000,  # 27:00
+        "start_ms": 32 * 60 * 1000,  # 32:00
         "repeat": 2,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -267,7 +290,7 @@ SEGMENTS = [
     # === NEW: Body healing (mind over body, autonomic balance, before sleep transition) ===
     {
         "name": "07d_body_healing",
-        "start_ms": 30 * 60 * 1000,  # 30:00
+        "start_ms": 34 * 60 * 1000,  # 34:00
         "use_intro_settings": True,
         "text": (
             "And now, with your body deeply relaxed, and your mind open, we turn attention inward. <<5>>\n\n"
@@ -297,7 +320,7 @@ SEGMENTS = [
     # === v6's 08_sleep_transition (PRESERVED EXACTLY + final phrase for terminal intonation) ===
     {
         "name": "08_sleep_transition",
-        "start_ms": 36 * 60 * 1000 + 30 * 1000,  # 36:30 (after expanded body healing)
+        "start_ms": 41 * 60 * 1000,  # 41:00 (after abundance + body healing)
         "text": (
             "And now, your body grows heavier, your mind drifts deeper. <<3>> Everything is settling. Into the place where identity is formed. <<4>>\n\n"
             "While you sleep, your subconscious will rehearse, organize, reinforce. Every system. Every belief. Every action. <<4>>\n\n"
@@ -475,9 +498,9 @@ def generate_binaural_track() -> AudioSegment:
     stages = [
         (0, 3, 10.0),
         (3, 8, 7.0),
-        (8, 30, 4.0),
-        (30, 36, 3.0),     # mid-delta during expanded body healing
-        (36, 40, 2.0),     # deep delta for sleep transition
+        (8, 34, 4.0),
+        (34, 41, 3.0),     # mid-delta during expanded body healing
+        (41, 45, 2.0),     # deep delta for sleep transition
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
