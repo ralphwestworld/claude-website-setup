@@ -23,7 +23,7 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 45 * 60 * 1000  # 45 min - added abundance/mansion section
+TOTAL_DURATION_MS = 50 * 60 * 1000  # 50 min - added mind mastery + health vitality + bank account specific
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
@@ -231,6 +231,7 @@ SEGMENTS = [
             "Anything they want, you buy. <<3>> Anything they need, you provide. <<5>>\n\n"
             "You travel anywhere, anytime, as much as you wish. <<3>> No questions. No constraints. No stress about money. <<5>>\n\n"
             "Money is no longer a problem. <<3>> Money is a tool. <<3>> And you wield it well. <<5>>\n\n"
+            "Your bank account holds forty-nine million, three hundred eighty-three thousand, thirty-six dollars and three cents. <<4>> Forty-nine million dollars. <<3>> Real. Earned. Yours. <<5>>\n\n"
             "Now see your home. <<5>>\n\n"
             "You drive up to your house on the Erie lakefront. <<3>> The road curves toward water. <<3>> The lake stretches out before you. Blue. Vast. Calm. <<5>>\n\n"
             "The house is yours. <<3>> Modern. Beautiful. Built exactly the way you wanted it. <<3>> Clean lines. Big windows. Light pouring in. <<5>>\n\n"
@@ -246,7 +247,7 @@ SEGMENTS = [
     # === v6's 07b_identity_dichotic_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07b_identity_dichotic_round2",
-        "start_ms": 29 * 60 * 1000,  # 29:00
+        "start_ms": 29 * 60 * 1000 + 30 * 1000,  # 29:30 (after expanded abundance)
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -287,10 +288,48 @@ SEGMENTS = [
             "I face every day with full presence and full power."
         ),
     },
+    # === NEW: Mind, Mastery & External Resilience ===
+    {
+        "name": "07e_mind_mastery",
+        "start_ms": 33 * 60 * 1000,  # 33:00
+        "text": (
+            "And now your subconscious is installing a new operating system for your mind. <<5>>\n\n"
+            "You are intelligent. <<3>> You think fast. <<3>> Your mind moves with clarity and speed. <<5>>\n\n"
+            "You are responsible. <<3>> You do what you say you will do. <<3>> You finish what you start. <<3>> You do not procrastinate. <<5>>\n\n"
+            "When you decide, you act. <<3>> When you commit, you execute. <<3>> The gap between thought and action closes. <<5>>\n\n"
+            "You are a master of marketing. <<3>> You understand what moves people to buy. You craft messages that convert. <<5>>\n\n"
+            "You are a master of sales. <<3>> You read the moment. You ask the right questions. You close. <<5>>\n\n"
+            "You are a master of e-commerce. <<3>> You understand the funnels, the conversions, the data. You build systems that scale. <<5>>\n\n"
+            "You are a master of the real estate industry. <<3>> Deals. Financing. Valuations. Negotiations. You see what others miss. <<5>>\n\n"
+            "You are great at personal finances. <<3>> You manage your money efficiently. <<3>> Your money grows. Your money compounds. Your wealth multiplies, month after month, year after year. <<5>>\n\n"
+            "You are a master of psychology. <<3>> You understand how people think. You read behavior patterns instantly. You see motivations clearly. <<5>>\n\n"
+            "You influence and persuade anyone. <<3>> Your words land. Your presence moves people. You lead any conversation. You shape any interaction. <<5>>\n\n"
+            "You shape the world around you with the power of your mind. <<3>> What you focus on expands. What you decide manifests. <<3>> Your thoughts shape your reality. <<5>>\n\n"
+            "And you are immune to external noise. <<3>> The news of the world does not shake you. <<3>> The pressure of others does not bend you. <<3>> The opinions of people who do not know you do not move you. <<5>>\n\n"
+            "You filter what enters your mind. <<3>> You choose what to focus on. <<3>> You protect your inner state, because your inner state determines your outer life. <<5>>\n\n"
+            "You are unshakeable."
+        ),
+    },
+    # === NEW: Health, Body & Vitality ===
+    {
+        "name": "07f_health_vitality",
+        "start_ms": 38 * 60 * 1000,  # 38:00
+        "text": (
+            "And now your subconscious turns to your body. To your health. <<5>>\n\n"
+            "You are healthy. <<3>> Your body is well. <<3>> Every system functioning at its peak. <<5>>\n\n"
+            "The anxiety that used to come, no longer comes. <<3>> The panic attacks that used to seize you, no longer seize you. <<3>> They are a memory. A past version. <<3>> Not you anymore. <<5>>\n\n"
+            "Your body remains calm under any circumstance. <<3>> Your nervous system stays regulated. <<3>> Your heart steady. Your breath even. <<5>>\n\n"
+            "If something needs healing in your body, you heal it. Fast. <<3>> Your body repairs itself rapidly. <<3>> Your immune system is strong. <<3>> Your recovery is quick. <<5>>\n\n"
+            "You are fit. <<3>> Your body is lean. <<3>> Your muscles are defined. <<3>> You move with strength and grace. <<5>>\n\n"
+            "You eat what serves you. <<3>> You move daily. <<3>> You sleep deeply. <<3>> Your body responds to the care you give it. <<5>>\n\n"
+            "And you have stopped vaping. <<3>> The pull is gone. <<3>> The craving is gone. <<3>> Your lungs breathe clean air now. <<3>> Your body thanks you, every breath. <<5>>\n\n"
+            "That habit belongs to a past version of you. <<3>> The version who is gone."
+        ),
+    },
     # === NEW: Body healing (mind over body, autonomic balance, before sleep transition) ===
     {
         "name": "07d_body_healing",
-        "start_ms": 34 * 60 * 1000,  # 34:00
+        "start_ms": 41 * 60 * 1000,  # 41:00
         "use_intro_settings": True,
         "text": (
             "And now, with your body deeply relaxed, and your mind open, we turn attention inward. <<5>>\n\n"
@@ -320,7 +359,7 @@ SEGMENTS = [
     # === v6's 08_sleep_transition (PRESERVED EXACTLY + final phrase for terminal intonation) ===
     {
         "name": "08_sleep_transition",
-        "start_ms": 41 * 60 * 1000,  # 41:00 (after abundance + body healing)
+        "start_ms": 48 * 60 * 1000,  # 48:00 (after all expansions)
         "text": (
             "And now, your body grows heavier, your mind drifts deeper. <<3>> Everything is settling. Into the place where identity is formed. <<4>>\n\n"
             "While you sleep, your subconscious will rehearse, organize, reinforce. Every system. Every belief. Every action. <<4>>\n\n"
@@ -498,9 +537,9 @@ def generate_binaural_track() -> AudioSegment:
     stages = [
         (0, 3, 10.0),
         (3, 8, 7.0),
-        (8, 34, 4.0),
-        (34, 41, 3.0),     # mid-delta during expanded body healing
-        (41, 45, 2.0),     # deep delta for sleep transition
+        (8, 41, 4.0),
+        (41, 48, 3.0),     # mid-delta during body healing
+        (48, 50, 2.0),     # deep delta for sleep transition
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
