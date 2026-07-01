@@ -112,7 +112,7 @@ SEGMENTS = [
             "Today, your actions are clear. <<4>>\n\n"
             "You work on YOUR projects first. <<3>> Before phone. Before news. Before anyone else's problems. <<5>>\n\n"
             "You drink water. You move your body. You eat clean. <<5>>\n\n"
-            "You open PropStream. You analyze deals. You make offers. You send messages. <<5>>\n\n"
+            "You analyze deals. You make offers. You reach out. You send messages. <<5>>\n\n"
             "You execute marketing. You execute sales. You build systems. <<5>>\n\n"
             "You manage your money. You watch it grow. You make decisions that compound. <<5>>\n\n"
             "You do not procrastinate. <<3>> When you decide, you act. When you commit, you finish. <<5>>\n\n"

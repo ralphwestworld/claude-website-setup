@@ -188,9 +188,9 @@ SEGMENTS = [
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
-            "Every morning, you open PropStream. You analyze deals. You make offers.\n\n"
+            "Every morning, you show up. You analyze deals. You make offers.\n\n"
             "You contact sellers. You build relationships. You negotiate from a position of certainty.\n\n"
-            "You use Claude Code. You build your acquisition systems. You automate what other investors do manually.\n\n"
+            "You build your acquisition systems. You automate what other investors do manually.\n\n"
             "You move forward every single day. No matter how you feel. No matter what is happening around you.\n\n"
             "Your discipline is not something you summon. It is who you are.\n\n"
             "You are organized. Your time is structured. Your priorities are clear."
