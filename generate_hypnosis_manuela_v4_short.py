@@ -84,7 +84,7 @@ NIGHT_SEGMENTS = [
             "Dez, descendo agora. Nove, mais pesada. Oito, o dobro mais profunda. <<1.5>>\n\n"
             "Sete, o mundo lá fora se afastando. Seis, meio caminho. Cinco, seu subconsciente aberto. <<1.5>>\n\n"
             "Quatro, flutuando. Três, o nível mais profundo que você já experimentou. Dois, além do pensamento. <<1.5>>\n\n"
-            "Um. Você está no estado perfeito. Cada palavra entra direto no lugar onde as crenças vivem, e fica."
+            "Um. Você está no estado perfeito. Cada palavra entra direto no lugar onde as suas crenças vivem, e fica."
         ),
     },
     {
@@ -101,7 +101,7 @@ NIGHT_SEGMENTS = [
         "name": "05_inversao",
         "start_ms": 7 * 60 * 1000 + 30 * 1000,  # 7:30
         "text": (
-            "E agora seu subconsciente está aprendendo uma coisa nova. <<2>>\n\n"
+            "E agora, o seu subconsciente está aprendendo uma coisa nova. <<2>>\n\n"
             "Aquele primeiro pensamento que às vezes vem, o pensamento de que você não é capaz. A partir de hoje, ele significa algo diferente. <<2>>\n\n"
             "Quando ele vier, ele vira o seu sinal para pausar e lembrar: eu sou capaz. Olha tudo o que eu já fiz. Olha tudo o que eu sustento. Meu trabalho, meus filhos, a mulher que eu sou. <<2>>\n\n"
             "O mesmo pensamento que antes te puxava pra baixo, agora te traz de volta pra você. Mão no peito, respiração, palavras. Você volta. Sempre."
@@ -162,7 +162,7 @@ NIGHT_SEGMENTS = [
         "name": "10_sono",
         "start_ms": 18 * 60 * 1000 + 30 * 1000,  # 18:30
         "text": (
-            "Agora seu corpo fica cada vez mais pesado, sua mente vai mais fundo. <<2>>\n\n"
+            "Agora seu corpo fica cada vez mais pesado, e a sua mente vai cada vez mais fundo. <<2>>\n\n"
             "Enquanto você dorme, seu subconsciente vai ensaiar, organizar e reforçar cada palavra, cada caminho novo. Você vai acordar amanhã mais clara, mais leve, mais forte. <<2>>\n\n"
             "Não há nada para fazer agora. Apenas se entregar ao sono. Mais fundo, e mais fundo, em um sono perfeito, curativo, restaurador."
         ),
