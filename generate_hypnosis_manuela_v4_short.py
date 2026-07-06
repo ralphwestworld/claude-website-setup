@@ -180,8 +180,8 @@ MORNING_SEGMENTS = [
         "name": "01_bom_dia",
         "start_ms": 0,
         "text": (
-            "Bom dia. Sente ou deite, olhos podem fechar. Isto é curto e focado, e define o seu dia. <<2>>\n\n"
-            "Respire fundo. Solte todo o ar. <<2>> E inspire. <<2>> Mais uma vez. Solte. <<2>> E inspire. <<2>>\n\n"
+            "Bom dia. Encontre uma posição confortável, e você pode fechar os olhos. Isto é curto e focado, e define o seu dia. <<2>>\n\n"
+            "Respire fundo. Solte todo o ar. <<2>> Muito bem. Agora inspire suavemente. <<2>> Mais uma vez. Solte todo o ar. <<2>> Isso. Agora inspire suavemente de novo. <<2>>\n\n"
             "Contando de três até um, você vai apenas fundo o suficiente para receber. Três, mais leve. Dois, aberta e receptiva. Um. Estado perfeito."
         ),
     },
