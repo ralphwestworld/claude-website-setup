@@ -23,7 +23,7 @@ WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_RATE = 44100
-TOTAL_DURATION_MS = 50 * 60 * 1000  # 50 min - added mind mastery + health vitality + bank account specific
+TOTAL_DURATION_MS = 52 * 60 * 1000  # 52 min - reordered: newest sections front-loaded before sleep onset
 
 VOICE_ID = "yL36RsgevEFpAJK9HWYh"  # Ralph West cloned
 MODEL_ID = "eleven_multilingual_v2"
@@ -116,7 +116,7 @@ SEGMENTS = [
     # === NEW: Tinnitus suppression (inserted at deepest point in trance) ===
     {
         "name": "03b_tinnitus",
-        "start_ms": 8 * 60 * 1000 + 30 * 1000,  # 8:30
+        "start_ms": 39 * 60 * 1000,  # 39:00 (OLD - nearly locked, still lands in delta)
         "use_intro_settings": True,
         "text": (
             "And in this deep state of relaxation... your subconscious is listening. <<5>>\n\n"
@@ -136,7 +136,7 @@ SEGMENTS = [
     # === v6's 04_staircase_visualization (PRESERVED EXACTLY) ===
     {
         "name": "04_staircase_visualization",
-        "start_ms": 12 * 60 * 1000,  # 12:00
+        "start_ms": 9 * 60 * 1000,  # 9:00 (visualization deepener completes induction)
         "text": (
             "Imagine yourself at the top of a beautiful staircase. <<4>>\n\n"
             "It descends into your perfect place. The version of your life where you have already arrived. <<3>>\n\n"
@@ -157,7 +157,7 @@ SEGMENTS = [
     # === v6's 05_identity_dichotic (PRESERVED EXACTLY) ===
     {
         "name": "05_identity_dichotic",
-        "start_ms": 14 * 60 * 1000,  # 14:00
+        "start_ms": 25 * 60 * 1000 + 30 * 1000,  # 25:30 (OLD - nearly locked, moved later)
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -184,7 +184,7 @@ SEGMENTS = [
     # === v6's 06_behavioral_dichotic (PRESERVED EXACTLY) ===
     {
         "name": "06_behavioral_dichotic",
-        "start_ms": 18 * 60 * 1000,  # 18:00
+        "start_ms": 30 * 60 * 1000,  # 30:00 (OLD - nearly locked)
         "repeat": 4,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -207,7 +207,7 @@ SEGMENTS = [
     # === v6's 07_future_pacing (PRESERVED EXACTLY) ===
     {
         "name": "07_future_pacing",
-        "start_ms": 22 * 60 * 1000,  # 22:00
+        "start_ms": 34 * 60 * 1000,  # 34:00 (OLD)
         "text": (
             "See yourself one year from now. <<5>>\n\n"
             "You are in your home office. On the wall, a map. Pins mark every property you own. Fifty doors now. Fifty. <<5>>\n\n"
@@ -223,7 +223,7 @@ SEGMENTS = [
     # === NEW: Abundance / Lakefront Mansion (wealth lifestyle visualization) ===
     {
         "name": "07a_abundance_mansion",
-        "start_ms": 24 * 60 * 1000,  # 24:00
+        "start_ms": 20 * 60 * 1000,  # 20:00 (NEWEST - front-loaded)
         "text": (
             "And now, see another part of your future. The wealth your work creates. <<5>>\n\n"
             "You are rich. You are successful. <<3>> The numbers in your accounts grow every month. <<3>> Money flows in faster than it flows out. <<5>>\n\n"
@@ -247,7 +247,7 @@ SEGMENTS = [
     # === v6's 07b_identity_dichotic_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07b_identity_dichotic_round2",
-        "start_ms": 29 * 60 * 1000 + 30 * 1000,  # 29:30 (after expanded abundance)
+        "start_ms": 36 * 60 * 1000,  # 36:00 (OLD)
         "repeat": 3,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -270,7 +270,7 @@ SEGMENTS = [
     # === v6's 07c_behavioral_round2 (PRESERVED EXACTLY) ===
     {
         "name": "07c_behavioral_round2",
-        "start_ms": 32 * 60 * 1000,  # 32:00
+        "start_ms": 38 * 60 * 1000,  # 38:00 (OLD)
         "repeat": 2,
         "repeat_gap_ms": 3000,
         "left_text": (
@@ -291,7 +291,7 @@ SEGMENTS = [
     # === NEW: Mind, Mastery & External Resilience ===
     {
         "name": "07e_mind_mastery",
-        "start_ms": 33 * 60 * 1000,  # 33:00
+        "start_ms": 11 * 60 * 1000 + 30 * 1000,  # 11:30 (NEWEST - front-loaded, deep trance, still awake)
         "text": (
             "And now your subconscious is installing a new operating system for your mind. <<5>>\n\n"
             "You are intelligent. <<3>> You think fast. <<3>> Your mind moves with clarity and speed. <<5>>\n\n"
@@ -313,7 +313,7 @@ SEGMENTS = [
     # === NEW: Health, Body & Vitality ===
     {
         "name": "07f_health_vitality",
-        "start_ms": 38 * 60 * 1000,  # 38:00
+        "start_ms": 16 * 60 * 1000 + 30 * 1000,  # 16:30 (NEWEST - front-loaded)
         "text": (
             "And now your subconscious turns to your body. To your health. <<5>>\n\n"
             "You are healthy. <<3>> Your body is well. <<3>> Every system functioning at its peak. <<5>>\n\n"
@@ -329,7 +329,7 @@ SEGMENTS = [
     # === NEW: Body healing (mind over body, autonomic balance, before sleep transition) ===
     {
         "name": "07d_body_healing",
-        "start_ms": 41 * 60 * 1000,  # 41:00
+        "start_ms": 42 * 60 * 1000 + 30 * 1000,  # 42:30 (works during sleep - stays near end)
         "use_intro_settings": True,
         "text": (
             "And now, with your body deeply relaxed, and your mind open, we turn attention inward. <<5>>\n\n"
@@ -359,7 +359,7 @@ SEGMENTS = [
     # === v6's 08_sleep_transition (PRESERVED EXACTLY + final phrase for terminal intonation) ===
     {
         "name": "08_sleep_transition",
-        "start_ms": 48 * 60 * 1000,  # 48:00 (after all expansions)
+        "start_ms": 49 * 60 * 1000,  # 49:00 (must stay last)
         "text": (
             "And now, your body grows heavier, your mind drifts deeper. <<3>> Everything is settling. Into the place where identity is formed. <<4>>\n\n"
             "While you sleep, your subconscious will rehearse, organize, reinforce. Every system. Every belief. Every action. <<4>>\n\n"
@@ -537,9 +537,9 @@ def generate_binaural_track() -> AudioSegment:
     stages = [
         (0, 3, 10.0),
         (3, 8, 7.0),
-        (8, 41, 4.0),
-        (41, 48, 3.0),     # mid-delta during body healing
-        (48, 50, 2.0),     # deep delta for sleep transition
+        (8, 42, 4.0),      # delta across the front-loaded suggestion window
+        (42, 49, 3.0),     # mid-delta during body healing
+        (49, 52, 2.0),     # deep delta for sleep transition
     ]
     total_samples = int(SAMPLE_RATE * (TOTAL_DURATION_MS / 1000.0))
     t = np.arange(total_samples) / SAMPLE_RATE
